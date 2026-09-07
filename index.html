@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArkLine Projects — Carpentry, Cabinetry &amp; Interior Fit-Outs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0b0d0c;
+    --panel:#111511;
+    --line:#7ED957;
+    --line-dim:#3f6b34;
+    --wood:#b98457;
+    --paper:#e9e6dd;
+    --paper-dim:#8f9088;
+    --hair:rgba(233,230,221,0.14);
+    --hair-soft:rgba(233,230,221,0.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'IBM Plex Mono',monospace;
+    overflow-x:hidden;
+    font-size:15px;
+  }
+  ::selection{background:var(--line);color:#0b0d0c;}
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3,.title-font{font-family:'Space Grotesk',sans-serif;}
+
+  .grid-bg{
+    position:fixed;inset:0;
+    background-image:
+      linear-gradient(var(--hair-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--hair-soft) 1px, transparent 1px);
+    background-size:56px 56px;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ===== Loader (kept) ===== */
+  #loader{
+    position:fixed;inset:0;background:var(--ink);z-index:1000;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    transition:transform 1s cubic-bezier(.76,0,.24,1);
+  }
+  #loader.hide{transform:translateY(-100%);}
+  #loader svg{width:min(70vw,320px);height:auto;overflow:visible;}
+  .draw-path{fill:none;stroke:var(--line);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;pathLength:1;}
+  .draw-path.white{stroke:var(--paper);}
+  .loader-label{margin-top:22px;letter-spacing:0.35em;font-size:11px;color:var(--paper-dim);opacity:0;animation:labelIn .6s ease forwards;animation-delay:1.6s;}
+  @keyframes labelIn{to{opacity:1;}}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+
+  /* ===== Nav ===== */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px 5vw;
+    background:linear-gradient(to bottom, rgba(11,13,12,0.92), transparent);
+    opacity:0;transform:translateY(-14px);
+  }
+  header.reveal{animation:navIn .8s cubic-bezier(.22,1,.36,1) forwards;}
+  @keyframes navIn{to{opacity:1;transform:translateY(0);}}
+  .brand{display:flex;align-items:center;gap:11px;}
+  .brand img{width:34px;height:34px;border-radius:50%;display:block;}
+  .brand-word{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;}
+  .brand-word span{color:var(--line);}
+  nav ul{list-style:none;display:flex;gap:32px;}
+  nav a{font-size:12.5px;color:var(--paper-dim);border-bottom:1px solid transparent;padding-bottom:3px;transition:color .3s,border-color .3s;}
+  nav a:hover{color:var(--paper);border-color:var(--line);}
+  .nav-cta{border:1px solid var(--hair);padding:9px 16px;font-size:12.5px;transition:border-color .3s,background .3s;}
+  .nav-cta:hover{border-color:var(--line);background:rgba(126,217,87,0.08);}
+  @media (max-width:820px){ nav ul{display:none;} }
+
+  /* ===== Title block (reused per sheet) ===== */
+  .title-block{
+    border:1px solid var(--hair);
+    font-size:10.5px;
+    color:var(--paper-dim);
+    display:grid;
+    min-width:230px;
+  }
+  .tb-row{display:grid;grid-template-columns:74px 1fr;border-top:1px solid var(--hair);}
+  .tb-row:first-child{border-top:none;}
+  .tb-key{padding:7px 9px;border-right:1px solid var(--hair);letter-spacing:0.06em;color:var(--paper-dim);}
+  .tb-val{padding:7px 9px;color:var(--paper);}
+  .tb-val.accent{color:var(--line);}
+
+  /* ===== Sheet section shell ===== */
+  section{position:relative;padding:96px 5vw;z-index:1;}
+  .sheet-header{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    gap:40px;margin-bottom:64px;flex-wrap:wrap;
+    padding-bottom:28px;border-bottom:1px solid var(--hair);
+  }
+  .sheet-num{
+    font-size:11px;color:var(--line);letter-spacing:0.14em;margin-bottom:10px;display:block;
+  }
+  .sheet-header h2{font-weight:600;font-size:clamp(1.5rem,3vw,2.15rem);letter-spacing:-0.01em;max-width:16ch;}
+  .sheet-note{max-width:32ch;font-size:12.5px;color:var(--paper-dim);line-height:1.7;padding-top:6px;}
+
+  .reveal-el{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);}
+  .reveal-el.in{opacity:1;transform:translateY(0);}
+
+  /* ===== Hero: the drawing sheet ===== */
+  .hero{
+    min-height:100vh;
+    padding-top:120px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+  .hero-top{
+    display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap;
+  }
+  .hero-note{max-width:34ch;}
+  .hero-note .kicker{font-size:11px;color:var(--paper-dim);letter-spacing:0.05em;margin-bottom:14px;}
+  .hero-note p{font-size:15.5px;line-height:1.8;color:var(--paper);}
+  .hero-note p b{color:var(--line);font-weight:500;}
+
+  .hero-drawing{
+    width:100%;
+    margin:38px 0 10px;
+  }
+  .hero-drawing svg{width:100%;height:auto;display:block;}
+  .draw-el{stroke:var(--paper-dim);fill:none;stroke-width:1.4;stroke-dasharray:1;stroke-dashoffset:1;pathLength:1;}
+  .draw-el.strong{stroke:var(--paper);stroke-width:1.6;}
+  .dim-el{stroke:var(--wood);fill:none;stroke-width:1;stroke-dasharray:1;stroke-dashoffset:1;pathLength:1;}
+  .lead-el{stroke:var(--line);fill:none;stroke-width:1;stroke-dasharray:1;stroke-dashoffset:1;pathLength:1;}
+  .dot-el{fill:var(--line);opacity:0;}
+  .label-el{font-family:'IBM Plex Mono',monospace;font-size:9.5px;fill:var(--paper-dim);opacity:0;}
+  .label-el.accent{fill:var(--line);}
+  .label-el.wood{fill:var(--wood);}
+  .cap-label{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--paper-dim);letter-spacing:0.08em;opacity:0;}
+
+  .hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;}
+  .hero-actions{display:flex;align-items:center;gap:22px;}
+  .btn-primary{
+    background:var(--line);color:#0b0d0c;padding:14px 26px;
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;
+    display:inline-block;transition:transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 26px -10px rgba(126,217,87,0.55);}
+  .btn-ghost{font-size:13px;color:var(--paper);border-bottom:1px solid var(--hair);padding-bottom:2px;transition:border-color .3s;}
+  .btn-ghost:hover{border-color:var(--paper);}
+  .scroll-hint{font-size:10.5px;color:var(--paper-dim);letter-spacing:0.06em;display:flex;align-items:center;gap:8px;}
+  .scroll-hint .tick{width:16px;height:1px;background:var(--paper-dim);position:relative;}
+
+  /* ===== About ===== */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;}
+  @media (max-width:880px){ .about-grid{grid-template-columns:1fr;} }
+  .about-grid p{font-size:14.5px;line-height:1.9;color:var(--paper-dim);margin-bottom:20px;}
+  .about-grid p b{color:var(--paper);font-weight:500;}
+
+  /* ===== Schedule tables (services + finishes) ===== */
+  .schedule{border:1px solid var(--hair);}
+  .sched-row{
+    display:grid;grid-template-columns:64px 200px 1fr;
+    border-top:1px solid var(--hair);
+  }
+  .sched-row.head{border-top:none;background:var(--panel);}
+  .sched-row:first-child{border-top:none;}
+  .sched-cell{padding:16px 18px;font-size:12.5px;}
+  .sched-row.head .sched-cell{color:var(--paper-dim);font-size:10.5px;letter-spacing:0.08em;padding:11px 18px;}
+  .sched-cell + .sched-cell{border-left:1px solid var(--hair);}
+  .sched-row .mark{color:var(--line);}
+  .sched-row .item{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:14.5px;color:var(--paper);}
+  .sched-row .desc{color:var(--paper-dim);line-height:1.65;}
+  .sched-row:hover{background:rgba(126,217,87,0.035);}
+  @media (max-width:700px){
+    .sched-row{grid-template-columns:44px 1fr;grid-template-areas:"m i" ". d";}
+    .sched-row.head{display:none;}
+    .sched-cell:nth-child(1){grid-area:m;} .sched-cell:nth-child(2){grid-area:i;border-left:none;}
+    .sched-cell:nth-child(3){grid-area:d;border-left:none;border-top:1px solid var(--hair);}
+  }
+
+  /* ===== Process: annotated sequence ===== */
+  .sequence{position:relative;padding:40px 0 10px;}
+  .seq-line{position:relative;height:1px;background:var(--hair);margin:0 10px;}
+  .seq-line .fill{position:absolute;top:0;left:0;height:1px;background:var(--line);width:0;transition:width 1.4s cubic-bezier(.22,1,.36,1);}
+  .seq-stops{display:flex;justify-content:space-between;padding:0 10px;}
+  .seq-stop{position:relative;width:25%;display:flex;justify-content:center;}
+  .seq-stop .node{width:9px;height:9px;border:1.5px solid var(--line);background:var(--ink);border-radius:50%;margin-top:-5px;}
+  .seq-card{width:88%;text-align:center;position:relative;}
+  .seq-stop:nth-child(odd) .seq-card{margin-top:22px;}
+  .seq-stop:nth-child(even) .seq-card{margin-top:-140px;}
+  @media (max-width:760px){
+    .seq-stops{flex-direction:column;gap:50px;padding:0;}
+    .seq-line{display:none;}
+    .seq-stop{width:100%;justify-content:flex-start;padding-left:20px;border-left:1px solid var(--hair);}
+    .seq-stop .node{margin-top:0;position:absolute;left:-5.5px;top:2px;}
+    .seq-card{width:100%;text-align:left;margin-top:0 !important;}
+  }
+  .seq-tag{font-size:10px;color:var(--line);letter-spacing:0.1em;margin-bottom:8px;}
+  .seq-card h3{font-size:16px;font-weight:600;margin-bottom:8px;}
+  .seq-card p{font-size:12px;color:var(--paper-dim);line-height:1.65;}
+
+  /* ===== Finish schedule swatch chips ===== */
+  .finish-row .chip{width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:10px;border:1px solid var(--hair);}
+  .fc1{background:repeating-linear-gradient(100deg,#8a5a34,#8a5a34 2px,#996b41 2px,#996b41 5px);}
+  .fc2{background:repeating-linear-gradient(95deg,#c9a878,#c9a878 3px,#b6905f 3px,#b6905f 6px);}
+  .fc3{background:repeating-linear-gradient(105deg,#4a4f45,#4a4f45 2px,#5b6152 2px,#5b6152 4px);}
+  .fc4{background:repeating-linear-gradient(90deg,#6f4a2a,#6f4a2a 3px,#7c5533 3px,#7c5533 7px);}
+  .fc5{background:linear-gradient(135deg,#2b2f27,#3a4032);}
+  .fc6{background:repeating-linear-gradient(98deg,#d8cdb8,#d8cdb8 2px,#c7ba9f 2px,#c7ba9f 5px);}
+
+  /* ===== Sign-off / contact ===== */
+  .signoff{
+    border:1px solid var(--hair);
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+  }
+  @media (max-width:800px){ .signoff{grid-template-columns:1fr;} }
+  .signoff-main{padding:56px;border-right:1px solid var(--hair);}
+  @media (max-width:800px){ .signoff-main{border-right:none;border-bottom:1px solid var(--hair);} }
+  .signoff-main h2{font-size:clamp(1.7rem,3.4vw,2.4rem);font-weight:600;max-width:14ch;margin-bottom:22px;}
+  .signoff-main p{color:var(--paper-dim);font-size:13.5px;line-height:1.8;max-width:44ch;margin-bottom:32px;}
+  .signoff-fields{display:grid;}
+  .sf-row{display:grid;grid-template-columns:110px 1fr;border-top:1px solid var(--hair);}
+  .sf-row:first-child{border-top:none;}
+  .sf-key{padding:16px 20px;font-size:10.5px;color:var(--paper-dim);letter-spacing:0.06em;}
+  .sf-val{padding:16px 20px;font-size:12.5px;color:var(--paper);border-left:1px solid var(--hair);}
+  .sf-val a{border-bottom:1px solid var(--hair);}
+  .sf-val a:hover{border-color:var(--line);color:var(--line);}
+
+  footer{
+    border-top:1px solid var(--hair);padding:34px 5vw;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+    font-size:11px;color:var(--paper-dim);
+  }
+  footer .f-brand{display:flex;align-items:center;gap:9px;font-family:'Space Grotesk',sans-serif;color:var(--paper);font-size:13px;}
+  footer .f-brand img{width:22px;height:22px;border-radius:50%;}
+  footer nav ul{display:flex;gap:22px;list-style:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- ===== Loader ===== -->
+<div id="loader" aria-hidden="true">
+  <svg viewBox="0 0 220 130">
+    <path class="draw-path" d="M8 118 L28 12 L48 118 M15 80 H41" style="animation:draw 0.9s 0.05s cubic-bezier(.65,0,.35,1) forwards"/>
+    <path class="draw-path" d="M60 118 V12 H78 A18 18 0 0 1 78 66 H60 M78 66 L96 118" style="animation:draw 0.9s 0.2s cubic-bezier(.65,0,.35,1) forwards"/>
+    <path class="draw-path" d="M106 118 V12 M106 68 L138 12 M106 68 L138 118" style="animation:draw 0.9s 0.35s cubic-bezier(.65,0,.35,1) forwards"/>
+    <path class="draw-path white" d="M154 12 V118 H182" style="animation:draw 0.9s 0.5s cubic-bezier(.65,0,.35,1) forwards"/>
+    <path class="draw-path" d="M8 132 H182" style="animation:draw 0.7s 0.85s cubic-bezier(.65,0,.35,1) forwards"/>
+  </svg>
+  <div class="loader-label">ARKLINE&nbsp;PROJECTS</div>
+</div>
+
+<header id="siteHeader">
+  <a class="brand" href="#top">
+    <img src="logo.jpg" alt="ArkLine Projects logo">
+    <span class="brand-word">ARK<span>LINE</span></span>
+  </a>
+  <nav>
+    <ul>
+      <li><a href="#about">Studio</a></li>
+      <li><a href="#scope">Scope</a></li>
+      <li><a href="#sequence">Process</a></li>
+      <li><a href="#finishes">Finishes</a></li>
+    </ul>
+  </nav>
+  <a class="nav-cta" href="#contact">Get a quote</a>
+</header>
+
+<main id="top">
+  <!-- ===== Hero — the drawing sheet ===== -->
+  <section class="hero">
+    <div class="hero-top">
+      <div class="hero-note">
+        <div class="kicker">NOTE 01</div>
+        <p>Every project here starts as <b>a line before it's a room</b> — measured, drawn and cut to fit the space you actually have.</p>
+      </div>
+      <div class="title-block">
+        <div class="tb-row"><div class="tb-key">PROJECT</div><div class="tb-val">ArkLine Projects</div></div>
+        <div class="tb-row"><div class="tb-key">DRAWING</div><div class="tb-val">Kitchen elevation</div></div>
+        <div class="tb-row"><div class="tb-key">SCALE</div><div class="tb-val">NTS</div></div>
+        <div class="tb-row"><div class="tb-key">SHEET</div><div class="tb-val accent">01 / 05</div></div>
+      </div>
+    </div>
+
+    <div class="hero-drawing">
+      <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" id="heroSvg">
+        <!-- floor -->
+        <path class="draw-el strong" id="p-floor" d="M60 360 H820"/>
+        <!-- base cabinet run -->
+        <path class="draw-el strong" id="p-base" d="M110 265 H360 V360 H110 Z M235 265 V360"/>
+        <!-- door lines module 1 -->
+        <path class="draw-el" id="p-door1" d="M118 273 H227 V352 H118 Z"/>
+        <circle class="dot-el" id="dot-handle1" cx="212" cy="312" r="2"/>
+        <!-- drawers module 2 -->
+        <path class="draw-el" id="p-drawers" d="M243 273 H352 M243 305 H352 M243 337 H352 M330 285 H344 M330 317 H344 M330 349 H344"/>
+        <!-- countertop -->
+        <path class="draw-el strong" id="p-counter" d="M96 251 H374 V265 H96 Z"/>
+        <path class="draw-el" id="p-counter-hatch" d="M110 251 L124 265 M140 251 L154 265 M170 251 L184 265 M200 251 L214 265 M230 251 L244 265 M260 251 L274 265 M290 251 L304 265 M320 251 L334 265 M350 251 L364 265"/>
+        <!-- wall units -->
+        <path class="draw-el strong" id="p-wall" d="M110 120 H225 V195 H110 Z M167 120 V195"/>
+        <path class="draw-el" id="p-wall-door" d="M118 128 H217 V187 H118 Z"/>
+        <!-- island -->
+        <path class="draw-el strong" id="p-island" d="M470 265 H660 V360 H470 Z M565 265 V360"/>
+        <path class="draw-el" id="p-island-door1" d="M478 273 H557 V352 H478 Z"/>
+        <path class="draw-el" id="p-island-drawers" d="M573 273 H652 M573 305 H652 M573 337 H652"/>
+        <path class="draw-el strong" id="p-island-top" d="M456 251 H674 V265 H456 Z"/>
+        <path class="draw-el" id="p-island-hatch" d="M468 251 L482 265 M498 251 L512 265 M528 251 L542 265 M558 251 L572 265 M588 251 L602 265 M618 251 L632 265 M648 251 L662 265"/>
+        <!-- stools -->
+        <path class="draw-el" id="p-stool1" d="M500 385 a14 14 0 1 0 0.01 0 M500 371 V360 M493 385 V399 M507 385 V399"/>
+        <path class="draw-el" id="p-stool2" d="M560 385 a14 14 0 1 0 0.01 0 M560 371 V360 M553 385 V399 M567 385 V399"/>
+
+        <!-- dimension: overall width base run -->
+        <path class="dim-el" id="d-width" d="M110 380 V392 M360 380 V392 M110 386 H360 M110 386 l6 -3 M110 386 l6 3 M360 386 l-6 -3 M360 386 l-6 3"/>
+        <text class="label-el wood" id="l-width" x="200" y="378">2400 mm</text>
+
+        <!-- dimension: overall height -->
+        <path class="dim-el" id="d-height" d="M800 120 H812 M800 360 H812 M806 120 V360 M806 120 l-3 6 M806 120 l3 6 M806 360 l-3 -6 M806 360 l3 -6"/>
+        <text class="label-el wood" id="l-height" x="818" y="242" transform="rotate(90 818 242)">2100 mm</text>
+
+        <!-- dimension: island width -->
+        <path class="dim-el" id="d-island" d="M470 380 V392 M660 380 V392 M470 386 H660 M470 386 l6 -3 M470 386 l6 3 M660 386 l-6 -3 M660 386 l-6 3"/>
+        <text class="label-el wood" id="l-island" x="530" y="378">1200 mm island</text>
+
+        <!-- leader: hinges -->
+        <path class="lead-el" id="lead1" d="M212 312 L150 280 H60"/>
+        <circle class="dot-el" id="dot1" cx="212" cy="312" r="2.4"/>
+        <text class="cap-label" id="cap1" x="60" y="272">SOFT-CLOSE HINGES</text>
+
+        <!-- leader: countertop -->
+        <path class="lead-el" id="lead2" d="M300 258 L340 190 H420"/>
+        <circle class="dot-el" id="dot2" cx="300" cy="258" r="2.4"/>
+        <text class="cap-label" id="cap2" x="420" y="182">20MM ENGINEERED STONE</text>
+
+        <!-- leader: oak fronts -->
+        <path class="lead-el" id="lead3" d="M167 128 L167 60 H240"/>
+        <circle class="dot-el" id="dot3" cx="167" cy="128" r="2.4"/>
+        <text class="cap-label" id="cap3" x="240" y="52">SOLID OAK FRONTS</text>
+
+        <!-- leader: island seating -->
+        <path class="lead-el" id="lead4" d="M530 385 L600 320 H700"/>
+        <circle class="dot-el" id="dot4" cx="530" cy="385" r="2.4"/>
+        <text class="cap-label" id="cap4" x="700" y="312">BUILT-IN ISLAND SEATING</text>
+
+        <!-- drawing title -->
+        <text class="cap-label" id="dtitle" x="60" y="30" style="font-size:11px;letter-spacing:0.14em;">ELEVATION A-A</text>
+        <text class="cap-label" id="dsub" x="60" y="46">SCALE NOT TO SCALE</text>
+      </svg>
+    </div>
+
+    <div class="hero-bottom">
+      <div class="hero-actions">
+        <a class="btn-primary" href="#contact">Get a quote</a>
+        <a class="btn-ghost" href="#scope">View scope of work</a>
+      </div>
+      <div class="scroll-hint"><span class="tick"></span> Sheet continues below</div>
+    </div>
+  </section>
+
+  <!-- ===== About ===== -->
+  <section id="about">
+    <div class="sheet-header reveal-el">
+      <div>
+        <span class="sheet-num">SHEET 02 / STUDIO</span>
+        <h2>Who's holding the pencil.</h2>
+      </div>
+      <p class="sheet-note">A short brief on how we work before you look at the scope of work.</p>
+    </div>
+    <div class="about-grid">
+      <p class="reveal-el">ArkLine Projects turns your ideas into beautiful, functional spaces tailored to your needs, style and budget. We provide <b>quality carpentry, cabinetry, renovations and interior solutions</b> — measured on site, drawn up, then built in the workshop before it's fitted into your home.</p>
+      <p class="reveal-el">We're committed to quality workmanship and attention to detail, from the first tape-measure mark to the final wipe-down. If a hinge doesn't close right or an edge doesn't sit flush, we go back and fix it before we call a job finished.</p>
+    </div>
+  </section>
+
+  <!-- ===== Scope of work (schedule) ===== -->
+  <section id="scope">
+    <div class="sheet-header reveal-el">
+      <div>
+        <span class="sheet-num">SHEET 03 / SCOPE OF WORK</span>
+        <h2>What's on the schedule.</h2>
+      </div>
+      <p class="sheet-note">Nine items, read like the schedule on a real set of drawings — pick one, or combine a few.</p>
+    </div>
+    <div class="schedule reveal-el">
+      <div class="sched-row head">
+        <div class="sched-cell">MARK</div>
+        <div class="sched-cell">ITEM</div>
+        <div class="sched-cell">DESCRIPTION</div>
+      </div>
+      <div id="scheduleBody"></div>
+    </div>
+  </section>
+
+  <!-- ===== Sequence ===== -->
+  <section id="sequence">
+    <div class="sheet-header reveal-el">
+      <div>
+        <span class="sheet-num">SHEET 04 / SEQUENCE</span>
+        <h2>How a job runs, start to finish.</h2>
+      </div>
+      <p class="sheet-note">Four stages on one line — no surprise change orders in between.</p>
+    </div>
+    <div class="sequence reveal-el">
+      <div class="seq-line" id="seqLine"><div class="fill" id="seqFill"></div></div>
+      <div class="seq-stops">
+        <div class="seq-stop"><div class="node"></div>
+          <div class="seq-card"><div class="seq-tag">01</div><h3>Measure</h3><p>We visit site, listen to the brief, and take exact measurements.</p></div>
+        </div>
+        <div class="seq-stop"><div class="node"></div>
+          <div class="seq-card"><div class="seq-tag">02</div><h3>Draw &amp; quote</h3><p>You get a clear layout and a line-item quote before anything's cut.</p></div>
+        </div>
+        <div class="seq-stop"><div class="node"></div>
+          <div class="seq-card"><div class="seq-tag">03</div><h3>Build &amp; fit</h3><p>Cutting and joinery in the workshop, then careful on-site install.</p></div>
+        </div>
+        <div class="seq-stop"><div class="node"></div>
+          <div class="seq-card"><div class="seq-tag">04</div><h3>Sign-off</h3><p>We check every hinge and edge with you before calling it done.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Finish schedule ===== -->
+  <section id="finishes">
+    <div class="sheet-header reveal-el">
+      <div>
+        <span class="sheet-num">SHEET 05 / FINISH SCHEDULE</span>
+        <h2>Tones we work with.</h2>
+      </div>
+      <p class="sheet-note">A starting palette — matched to your space when we draw up the design.</p>
+    </div>
+    <div class="schedule reveal-el">
+      <div class="sched-row head">
+        <div class="sched-cell">CODE</div>
+        <div class="sched-cell">FINISH</div>
+        <div class="sched-cell">TYPICAL USE</div>
+      </div>
+      <div id="finishBody"></div>
+    </div>
+  </section>
+
+  <!-- ===== Sign-off / contact ===== -->
+  <section id="contact">
+    <div class="sheet-header reveal-el">
+      <div>
+        <span class="sheet-num">SHEET 06 / SIGN-OFF</span>
+        <h2>Let's put your space on paper.</h2>
+      </div>
+    </div>
+    <div class="signoff reveal-el">
+      <div class="signoff-main">
+        <h2>Ready when you are.</h2>
+        <p>Tell us what you're building — a single cupboard or a full fit-out — and we'll come measure, draw it up, and quote it properly.</p>
+        <a class="btn-primary" href="mailto:hello@arklineprojects.co.za">Request a quote</a>
+      </div>
+      <div class="signoff-fields">
+        <div class="sf-row"><div class="sf-key">EMAIL</div><div class="sf-val"><a href="mailto:hello@arklineprojects.co.za">hello@arklineprojects.co.za</a></div></div>
+        <div class="sf-row"><div class="sf-key">PHONE</div><div class="sf-val"><a href="tel:+27000000000">+27 00 000 0000</a></div></div>
+        <div class="sf-row"><div class="sf-key">STATUS</div><div class="sf-val">Taking new projects</div></div>
+        <div class="sf-row"><div class="sf-key">AREA</div><div class="sf-val">On-site &amp; workshop-based</div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <a class="f-brand" href="#top"><img src="logo.jpg" alt="ArkLine Projects"> ArkLine Projects</a>
+  <nav><ul>
+    <li><a href="#about">Studio</a></li>
+    <li><a href="#scope">Scope</a></li>
+    <li><a href="#sequence">Process</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul></nav>
+  <span>© 2026 ArkLine Projects</span>
+</footer>
+
+<script>
+  // ---------- Schedule data ----------
+  const scope = [
+    ["A1","Kitchens","Full kitchen builds and remodels, from carcass to countertop."],
+    ["A2","Built-in cupboards","Wardrobes and storage shaped exactly to your walls and corners."],
+    ["A3","Custom cabinets","One-off cabinetry designed around what you actually need to store."],
+    ["A4","TV units","Media units and floating consoles built for your screen and cable runs."],
+    ["A5","Wall panelling","Slat and panel feature walls that add texture without clutter."],
+    ["A6","Office spaces","Built-in desks, shelving and storage for a workspace that works."],
+    ["A7","Vanities","Bathroom vanities sized to fit, finished to survive daily use."],
+    ["A8","Countertops","Worktops fitted flush and finished, from kitchens to vanities."],
+    ["A9","Shop fitting","Retail and commercial interiors built to spec and to deadline."]
+  ];
+  const schedBody = document.getElementById('scheduleBody');
+  scope.forEach(([mark,item,desc])=>{
+    const row = document.createElement('div');
+    row.className = 'sched-row reveal-el';
+    row.innerHTML = `<div class="sched-cell mark">${mark}</div><div class="sched-cell item">${item}</div><div class="sched-cell desc">${desc}</div>`;
+    schedBody.appendChild(row);
+  });
+
+  const finishes = [
+    ["FIN-01","fc1","Walnut woodgrain","Cabinet fronts, feature panelling"],
+    ["FIN-02","fc2","Natural oak","Open shelving, wall units"],
+    ["FIN-03","fc3","Matte olive","Painted cabinetry, joinery"],
+    ["FIN-04","fc4","Dark mahogany","Vanities, office builds"],
+    ["FIN-05","fc5","Charcoal matte","Handles, kickboards, hardware"],
+    ["FIN-06","fc6","Limed ash","Countertops, light interiors"]
+  ];
+  const finBody = document.getElementById('finishBody');
+  finishes.forEach(([code,cls,name,use])=>{
+    const row = document.createElement('div');
+    row.className = 'sched-row reveal-el finish-row';
+    row.innerHTML = `<div class="sched-cell mark">${code}</div><div class="sched-cell item"><span class="chip ${cls}"></span>${name}</div><div class="sched-cell desc">${use}</div>`;
+    finBody.appendChild(row);
+  });
+
+  // ---------- Loader sequence ----------
+  const loader = document.getElementById('loader');
+  const header = document.getElementById('siteHeader');
+
+  function drawHero(){
+    const svg = document.getElementById('heroSvg');
+    const structural = svg.querySelectorAll('.draw-el');
+    const dims = svg.querySelectorAll('.dim-el, .label-el');
+    const leaders = svg.querySelectorAll('.lead-el, .dot-el, .cap-label');
+
+    structural.forEach((el,i)=>{
+      el.style.animation = `draw 0.9s ${0.05*i}s cubic-bezier(.65,0,.35,1) forwards`;
+    });
+    const structDuration = 0.05*structural.length + 0.9;
+    dims.forEach((el,i)=>{
+      if(el.classList.contains('label-el')){
+        el.style.animation = `fadeIn .5s ${structDuration + 0.1*i}s ease forwards`;
+      }else{
+        el.style.animation = `draw .6s ${structDuration + 0.1*i}s cubic-bezier(.65,0,.35,1) forwards`;
+      }
+    });
+    const dimDuration = structDuration + 0.1*dims.length + 0.3;
+    leaders.forEach((el,i)=>{
+      if(el.tagName === 'circle'){
+        el.style.animation = `dotIn .3s ${dimDuration + 0.18*i}s ease forwards`;
+      }else if(el.classList.contains('cap-label')){
+        el.style.animation = `fadeIn .5s ${dimDuration + 0.18*i + 0.15}s ease forwards`;
+      }else{
+        el.style.animation = `draw .5s ${dimDuration + 0.18*i}s cubic-bezier(.65,0,.35,1) forwards`;
+      }
+    });
+  }
+
+  function revealHero(){
+    header.classList.add('reveal');
+    document.querySelector('.hero-note').style.animation = 'fadeUp .8s .05s cubic-bezier(.22,1,.36,1) forwards';
+    document.querySelector('.title-block').style.animation = 'fadeUp .8s .18s cubic-bezier(.22,1,.36,1) forwards';
+    document.querySelector('.hero-bottom').style.animation = 'fadeUp .8s .3s cubic-bezier(.22,1,.36,1) forwards';
+    drawHero();
+  }
+
+  window.addEventListener('load', ()=>{
+    setTimeout(()=>{
+      loader.classList.add('hide');
+      revealHero();
+      setTimeout(()=> loader.style.display='none', 1100);
+    }, 1750);
+  });
+  setTimeout(()=>{
+    if(loader.style.display !== 'none'){
+      loader.classList.add('hide');
+      revealHero();
+      setTimeout(()=> loader.style.display='none', 1100);
+    }
+  }, 3200);
+
+  const styleTag = document.createElement('style');
+  styleTag.textContent = `
+    @keyframes fadeIn{ to{opacity:1;} }
+    @keyframes fadeUp{ from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+    @keyframes dotIn{ to{opacity:1;} }
+    .hero-note, .title-block, .hero-bottom{opacity:0;}
+  `;
+  document.head.appendChild(styleTag);
+
+  // ---------- Scroll reveal ----------
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.12, rootMargin:'0px 0px -60px 0px'});
+
+  document.querySelectorAll('.reveal-el').forEach((el,i)=>{
+    el.style.transitionDelay = (i%8)*0.05 + 's';
+    io.observe(el);
+  });
+
+  // sequence line fill
+  const seqSection = document.getElementById('sequence');
+  const seqFill = document.getElementById('seqFill');
+  const seqIo = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        seqFill.style.width = '100%';
+        seqIo.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.3});
+  seqIo.observe(seqSection);
+</script>
+</body>
+</html>
