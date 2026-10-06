@@ -2,586 +2,1138 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ArkLine Projects — Carpentry, Cabinetry &amp; Interior Fit-Outs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ArkLine Projects — Bespoke Carpentry, Cabinetry &amp; Interiors</title>
+<link rel="icon" href="images/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;600;700;800;900&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* drafting-paper palette */
-    --bg:#F2EEE3;
-    --bg-panel:#E9E2D0;
-    --ink:#1D201A;
-    --ink-dim:#6E6F63;
-    --line:#2E6B3A;
-    --line-soft:rgba(46,107,58,0.10);
-    --wood:#8B5A34;
-    --hair:rgba(29,32,26,0.16);
-    --hair-soft:rgba(29,32,26,0.07);
-    --btn-text:#F6F4EB;
+    --charcoal:#0B0D0A;
+    --charcoal-soft:#12140F;
+    --warm-white:#F5F6F2;
+    --timber:#3E6B22;
+    --light-wood:#7CB342;
+    --white:#FFFFFF;
+    --line: rgba(11,13,10,0.14);
+    --line-light: rgba(245,246,242,0.2);
+    --serif: 'Big Shoulders Display', 'Archivo Narrow', Impact, sans-serif;
+    --sans: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --nav-h: 84px;
   }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --charcoal:#0B0D0A;
+      --warm-white:#F5F6F2;
+      --timber:#3E6B22;
+      --light-wood:#7CB342;
+      --white:#FFFFFF;
+    }
+  }
+  :root[data-theme="dark"]{
+    --charcoal:#0B0D0A;
+    --warm-white:#F5F6F2;
+    --timber:#3E6B22;
+    --light-wood:#7CB342;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; scroll-padding-top: calc(var(--nav-h) + env(safe-area-inset-top,0px));}
   body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:'Inter',sans-serif;
+    margin:0;
+    background: var(--warm-white);
+    color: var(--charcoal);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    padding-top: env(safe-area-inset-top,0px);
+    padding-bottom: env(safe-area-inset-bottom,0px);
     overflow-x:hidden;
-    font-size:15px;
   }
-  ::selection{background:var(--line);color:var(--btn-text);}
-  a{color:inherit;text-decoration:none;}
-  h1,h2,h3,.title-font{font-family:'Bricolage Grotesque',sans-serif;}
-  .mono{font-family:'IBM Plex Mono',monospace;}
+  img{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer;}
+  .wrap{max-width:1280px; margin:0 auto; padding:0 40px;}
+  @media (max-width:900px){ .wrap{padding:0 22px;} }
 
-  .grid-bg{
-    position:fixed;inset:0;
-    background-image:
-      linear-gradient(var(--hair-soft) 1px, transparent 1px),
-      linear-gradient(90deg, var(--hair-soft) 1px, transparent 1px);
-    background-size:56px 56px;
-    pointer-events:none;
-    z-index:0;
+  h1,h2,h3,h4{ font-family: var(--serif); font-weight:700; margin:0; letter-spacing:0; text-transform:uppercase; }
+  .eyebrow{
+    font-size:12.5px; letter-spacing:0.22em; text-transform:uppercase; text-align:center;
+    color: var(--timber); font-weight:700; display:flex; align-items:baseline; justify-content:center; gap:9px;
+    width:100%;
+  }
+  .eyebrow .ey-num{ opacity:.55; letter-spacing:0.1em; }
+  .num{ font-family: var(--sans); font-weight:700; color: var(--timber); font-size:14px; letter-spacing:0.04em; }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:fixed; top:0; left:0; right:0; z-index:500;
+    padding-top: env(safe-area-inset-top,0px);
+    transition: background-color .45s ease, border-color .45s ease, box-shadow .45s ease;
+    border-bottom:1px solid transparent;
+  }
+  header.nav.solid{
+    background: rgba(245,241,232,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  header.nav .bar{
+    height:var(--nav-h); display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{ display:inline-flex; align-items:center; gap:0; color:inherit; }
+  .brand img{ height:56px; width:56px; display:block; border-radius:50%; }
+  @media (max-width:880px){ .brand img{ height:48px; width:48px; } }
+  .brand .lg-line{ color:var(--timber); }
+  .brand .lg-tag{ font-family:var(--sans); font-size:10px; font-weight:700; letter-spacing:.24em; text-transform:uppercase; margin-left:8px; opacity:.7; align-self:center; }
+  header.nav:not(.solid) .brand, header.nav:not(.solid) .navlinks a, header.nav:not(.solid) .menu-btn{ color:var(--warm-white); }
+  .navlinks{ display:flex; align-items:center; gap:34px; }
+  .navlinks a{ font-size:14px; font-weight:600; letter-spacing:0.02em; padding:6px 0; position:relative; }
+  .navlinks a:not(.cta)::after{
+    content:""; position:absolute; left:0; bottom:-2px; width:0; height:1px; background:currentColor;
+    transition:width .3s ease;
+  }
+  .navlinks a:not(.cta):hover::after{ width:100%; }
+  .navlinks a.cta{
+    border:1px solid currentColor; padding:10px 18px; font-size:13px; letter-spacing:0.05em;
+  }
+  header.nav.solid .navlinks a.cta{ border-color:var(--charcoal); background:var(--charcoal); color:var(--warm-white); }
+  header.nav.solid .navlinks a.cta:hover{ background:var(--timber); border-color:var(--timber); }
+  header.nav:not(.solid) .navlinks a.cta:hover{ background:var(--warm-white); color:var(--charcoal); }
+  .menu-btn{ display:none; background:none; border:none; width:44px; height:44px; position:relative; }
+  .menu-btn span{ position:absolute; left:6px; right:6px; height:1.5px; background:currentColor; transition:.3s; }
+  .menu-btn span:nth-child(1){top:10px;} .menu-btn span:nth-child(2){top:21px;} .menu-btn span:nth-child(3){top:32px;}
+  @media (max-width:880px){
+    .navlinks{ position:fixed; inset:0 0 0 auto; width:min(82vw,360px); height:100vh; background:var(--charcoal);
+      color:var(--warm-white); flex-direction:column; justify-content:center; align-items:flex-start; gap:26px;
+      padding:40px; visibility:hidden; transform:translateX(100%); transition:transform .45s cubic-bezier(.7,0,.2,1); z-index:600;
+      padding-top: calc(40px + env(safe-area-inset-top,0px));
+    }
+    .navlinks.open{ visibility:visible; transform:translateX(0); }
+    .navlinks a{ color:var(--warm-white); font-size:20px; font-family:var(--serif); font-weight:700; text-transform:uppercase; letter-spacing:.01em; }
+    .navlinks a.cta{ border-color:var(--warm-white); margin-top:10px; }
+    header.nav:not(.solid) .menu-btn, header.nav .menu-btn{ color:var(--charcoal); }
+    header.nav:not(.solid) .menu-btn{ color:var(--warm-white); }
+    .menu-btn{ display:block; z-index:650; }
+    .menu-btn.is-open{ color:var(--warm-white) !important; }
   }
 
-  /* ===== Loader — stays dark, like lifting a cover off the drawing ===== */
-  #loader{
-    position:fixed;inset:0;background:#0b0d0c;z-index:1000;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    transition:transform 1s cubic-bezier(.76,0,.24,1);
-  }
-  #loader.hide{transform:translateY(-100%);}
-  #loader svg{width:min(70vw,320px);height:auto;overflow:visible;}
-  .draw-path{fill:none;stroke:#7ED957;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;pathLength:1;}
-  .draw-path.white{stroke:#EDEAE2;}
-  .loader-label{font-family:'IBM Plex Mono',monospace;margin-top:22px;letter-spacing:0.35em;font-size:11px;color:#9a9a93;opacity:0;animation:labelIn .6s ease forwards;animation-delay:1.6s;}
-  @keyframes labelIn{to{opacity:1;}}
-  @keyframes draw{to{stroke-dashoffset:0;}}
-
-  /* ===== Nav ===== */
-  header{
-    position:fixed;top:0;left:0;right:0;z-index:100;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:20px 5vw;
-    background:linear-gradient(to bottom, rgba(242,238,227,0.94), rgba(242,238,227,0));
-    opacity:0;transform:translateY(-14px);
-  }
-  header.reveal{animation:navIn .8s cubic-bezier(.22,1,.36,1) forwards;}
-  @keyframes navIn{to{opacity:1;transform:translateY(0);}}
-  .brand{display:flex;align-items:center;gap:11px;}
-  .brand img{width:34px;height:34px;border-radius:50%;display:block;}
-  .brand-word{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:15px;}
-  .brand-word span{color:var(--line);}
-  nav ul{list-style:none;display:flex;gap:32px;}
-  nav a{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-dim);border-bottom:1px solid transparent;padding-bottom:3px;transition:color .3s,border-color .3s;}
-  nav a:hover{color:var(--ink);border-color:var(--line);}
-  .nav-cta{font-family:'IBM Plex Mono',monospace;border:1px solid var(--hair);padding:9px 16px;font-size:12px;transition:border-color .3s,background .3s;}
-  .nav-cta:hover{border-color:var(--line);background:var(--line-soft);}
-  @media (max-width:820px){ nav ul{display:none;} }
-
-  /* ===== Title block ===== */
-  .title-block{
-    border:1px solid var(--hair);
-    font-family:'IBM Plex Mono',monospace;
-    font-size:10.5px;
-    color:var(--ink-dim);
-    display:grid;
-    min-width:230px;
-    background:rgba(255,255,255,0.35);
-  }
-  .tb-row{display:grid;grid-template-columns:74px 1fr;border-top:1px solid var(--hair);}
-  .tb-row:first-child{border-top:none;}
-  .tb-key{padding:7px 9px;border-right:1px solid var(--hair);letter-spacing:0.06em;color:var(--ink-dim);}
-  .tb-val{padding:7px 9px;color:var(--ink);}
-  .tb-val.accent{color:var(--line);}
-
-  /* ===== Sheet section shell ===== */
-  section{position:relative;padding:96px 5vw;z-index:1;}
-  .sheet-header{
-    display:flex;justify-content:space-between;align-items:flex-start;
-    gap:40px;margin-bottom:64px;flex-wrap:wrap;
-    padding-bottom:28px;border-bottom:1px solid var(--hair);
-  }
-  .sheet-num{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:11px;color:var(--line);letter-spacing:0.14em;margin-bottom:10px;display:block;
-  }
-  .sheet-header h2{font-weight:600;font-size:clamp(1.5rem,3vw,2.15rem);letter-spacing:-0.01em;max-width:16ch;}
-  .sheet-note{font-family:'IBM Plex Mono',monospace;max-width:32ch;font-size:12px;color:var(--ink-dim);line-height:1.7;padding-top:6px;}
-
-  .reveal-el{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);}
-  .reveal-el.in{opacity:1;transform:translateY(0);}
-
-  /* ===== Hero ===== */
+  /* ---------- HERO ---------- */
   .hero{
-    min-height:100vh;
-    padding-top:120px;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
+    position:relative; height:100svh; min-height:560px; display:flex; align-items:flex-end;
+    color:var(--warm-white); overflow:hidden;
   }
-  .hero-top{
-    display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap;
+  .hero-img{
+    position:absolute; inset:0; background-size:cover; background-position:center 62%;
+    transform:scale(1.08); filter:saturate(1.02);
+    animation: heroReveal 1.6s cubic-bezier(.2,.7,.2,1) forwards;
   }
-  .hero-note{max-width:34ch;}
-  .hero-note .kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-dim);letter-spacing:0.05em;margin-bottom:14px;}
-  .hero-note p{font-size:16.5px;line-height:1.75;color:var(--ink);}
-  .hero-note p b{color:var(--line);font-weight:600;}
-
-  .hero-drawing{width:100%;margin:38px 0 10px;}
-  .hero-drawing svg{width:100%;height:auto;display:block;}
-  .draw-el{stroke:var(--ink-dim);fill:none;stroke-width:1.4;stroke-dasharray:1;stroke-dashoffset:1;pathLength:1;}
-  .draw-el.strong{stroke:var(--ink);stroke-width:1.6;}
-  .dim-el{stroke:var(--wood);fill:none;stroke-width:1;stroke-dasharray:1;stroke-dashoffset:1;pathLength:1;}
-  .lead-el{stroke:var(--line);fill:none;stroke-width:1;stroke-dasharray:1;stroke-dashoffset:1;pathLength:1;}
-  .dot-el{fill:var(--line);opacity:0;}
-  .label-el{font-family:'IBM Plex Mono',monospace;font-size:9.5px;fill:var(--wood);opacity:0;}
-  .cap-label{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--ink-dim);letter-spacing:0.08em;opacity:0;}
-
-  .hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;}
-  .hero-actions{display:flex;align-items:center;gap:22px;}
-  .btn-primary{
-    background:var(--line);color:var(--btn-text);padding:14px 26px;
-    font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:13px;
-    display:inline-block;transition:transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s ease;
+  @media (prefers-reduced-motion: reduce){ .hero-img{ animation:none; transform:scale(1);} }
+  @keyframes heroReveal{ from{ transform:scale(1.14);} to{ transform:scale(1.02);} }
+  .hero::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(15,14,12,.35) 0%, rgba(15,14,12,.18) 32%, rgba(15,14,12,.62) 100%);
   }
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 26px -10px rgba(46,107,58,0.45);}
-  .btn-ghost{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink);border-bottom:1px solid var(--hair);padding-bottom:2px;transition:border-color .3s;}
-  .btn-ghost:hover{border-color:var(--ink);}
-  .scroll-hint{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-dim);letter-spacing:0.06em;display:flex;align-items:center;gap:8px;}
-  .scroll-hint .tick{width:16px;height:1px;background:var(--ink-dim);position:relative;}
+  .hero-shine{
+    position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden;
+  }
+  .hero-shine::after{
+    content:""; position:absolute; top:-20%; bottom:-20%; left:-30%; width:38%;
+    background:linear-gradient(100deg, rgba(238,240,232,0) 0%, rgba(238,240,232,.16) 45%, rgba(166,222,93,.22) 52%, rgba(238,240,232,0) 100%);
+    transform:translateX(-40%) skewX(-12deg);
+    animation: heroShine 2.2s .8s cubic-bezier(.3,.6,.2,1) forwards;
+  }
+  @keyframes heroShine{ to{ transform:translateX(380%) skewX(-12deg); } }
+  @media (prefers-reduced-motion: reduce){ .hero-shine::after{ display:none; } }
+  .hero-inner{ position:relative; z-index:2; width:100%; padding:0 0 80px; }
+  .hero-corner{
+    position:absolute; z-index:2; top:calc(var(--nav-h) + 26px); right:40px;
+    font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; font-weight:700;
+    writing-mode:vertical-rl; opacity:.85;
+  }
+  @media (max-width:880px){ .hero-corner{ display:none; } }
+  .hero h1{
+    font-size:clamp(46px,8vw,104px); line-height:0.94; font-weight:800; max-width:17ch;
+    opacity:0; animation: fadeUp .9s .35s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  .hero p.sub{
+    font-family:var(--sans); font-size:clamp(15px,1.6vw,19px); font-weight:500; margin-top:22px;
+    max-width:520px; opacity:0; color:rgba(245,241,232,0.9);
+    animation: fadeUp .9s .5s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  .hero-ctas{ display:flex; gap:16px; margin-top:38px; flex-wrap:wrap;
+    opacity:0; animation: fadeUp .9s .62s cubic-bezier(.2,.7,.2,1) forwards; }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);} }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px; font-size:13.5px; font-weight:700;
+    letter-spacing:.05em; text-transform:uppercase; padding:15px 26px; border:1px solid currentColor;
+    transition: background-color .35s ease, color .35s ease, border-color .35s ease;
+  }
+  .btn-light{ color:var(--charcoal); background:var(--warm-white); border-color:var(--warm-white); }
+  .btn-light:hover{ background:transparent; color:var(--warm-white); }
+  .btn-outline-light{ color:var(--warm-white); }
+  .btn-outline-light:hover{ background:var(--warm-white); color:var(--charcoal); }
+  .btn-dark{ color:var(--warm-white); background:var(--charcoal); border-color:var(--charcoal); }
+  .btn-dark:hover{ background:var(--timber); border-color:var(--timber); }
+  .btn-outline-dark{ color:var(--charcoal); }
+  .btn-outline-dark:hover{ background:var(--charcoal); color:var(--warm-white); }
+  .btn svg{ width:15px; height:15px; transition:transform .3s ease; }
+  .btn:hover svg{ transform:translateX(3px); }
 
-  /* ===== About ===== */
-  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;}
-  @media (max-width:880px){ .about-grid{grid-template-columns:1fr;} }
-  .about-grid p{font-size:15px;line-height:1.85;color:var(--ink-dim);margin-bottom:20px;}
-  .about-grid p b{color:var(--ink);font-weight:600;}
+  /* ---------- GENERIC SECTION ---------- */
+  section{ position:relative; }
+  .section-pad{ padding:120px 0; }
+  @media (max-width:880px){ .section-pad{ padding:76px 0; } }
+  .dark{ background:var(--charcoal); color:var(--warm-white); }
+  .dark .eyebrow{ color:var(--light-wood); }
+  .dark .eyebrow::before{ background:var(--light-wood); }
+  .reveal{ opacity:0; transform:translateY(26px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1; transform:none; transition:none;} }
 
-  /* ===== Schedule tables ===== */
-  .schedule{border:1px solid var(--hair);}
-  .sched-row{display:grid;grid-template-columns:64px 200px 1fr;border-top:1px solid var(--hair);}
-  .sched-row.head{border-top:none;background:var(--bg-panel);}
-  .sched-cell{padding:16px 18px;font-size:13px;}
-  .sched-row.head .sched-cell{font-family:'IBM Plex Mono',monospace;color:var(--ink-dim);font-size:10.5px;letter-spacing:0.08em;padding:11px 18px;}
-  .sched-cell + .sched-cell{border-left:1px solid var(--hair);}
-  .sched-row .mark{font-family:'IBM Plex Mono',monospace;color:var(--line);}
-  .sched-row .item{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:15.5px;color:var(--ink);}
-  .sched-row .desc{color:var(--ink-dim);line-height:1.65;}
-  .sched-row:hover{background:var(--line-soft);}
-  @media (max-width:700px){
-    .sched-row{grid-template-columns:44px 1fr;grid-template-areas:"m i" ". d";}
-    .sched-row.head{display:none;}
-    .sched-cell:nth-child(1){grid-area:m;} .sched-cell:nth-child(2){grid-area:i;border-left:none;}
-    .sched-cell:nth-child(3){grid-area:d;border-left:none;border-top:1px solid var(--hair);}
+  /* ---------- INTRO ---------- */
+  .intro-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:80px; align-items:start; }
+  @media (max-width:900px){ .intro-grid{ grid-template-columns:1fr; gap:44px; } }
+  .intro-grid h2{ font-size:clamp(30px,4vw,46px); line-height:1.12; margin-top:16px; max-width:14ch; }
+  .intro-grid .lede{ font-size:17px; line-height:1.7; margin-top:22px; max-width:52ch; color:#3a3733; }
+  .hinge-quote{
+    border-left:2px solid var(--timber); padding-left:26px; margin-top:8px;
+  }
+  .hinge-quote p{ font-family:var(--sans); font-style:italic; font-weight:600; text-transform:none; font-size:clamp(19px,2.1vw,24px); line-height:1.5; color:var(--charcoal); }
+  .hinge-quote span{ display:block; margin-top:14px; font-family:var(--sans); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:var(--timber); }
+
+  /* ---------- SERVICES ---------- */
+  .services-shell{ display:grid; grid-template-columns:1fr 1fr; gap:0; align-items:stretch; border-top:1px solid var(--line-light); }
+  @media (max-width:980px){ .services-shell{ grid-template-columns:1fr; } }
+  .services-list{ }
+  .service-row{
+    border-bottom:1px solid var(--line-light);
+    position:relative; overflow:hidden;
+  }
+  .service-row::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--light-wood);
+    transform:scaleY(0); transform-origin:bottom; transition:transform .45s cubic-bezier(.3,.7,.2,1);
+  }
+  .service-row:hover::before, .service-row.active::before{ transform:scaleY(1); }
+  .service-row button.s-toggle{
+    width:100%; background:none; border:none; color:inherit; text-align:left;
+    display:flex; align-items:center; gap:20px; padding:22px 10px 22px 22px; font-family:var(--sans);
+    transition:padding-left .35s cubic-bezier(.3,.7,.2,1), background-color .35s ease;
+  }
+  .service-row:hover button.s-toggle, .service-row.active button.s-toggle{
+    padding-left:32px; background:rgba(245,246,242,.045);
+  }
+  .service-row .s-num{ font-size:12.5px; font-weight:700; color:var(--light-wood); width:24px; flex:none; opacity:.55; }
+  .service-row .s-copy{ flex:1; display:flex; flex-direction:column; gap:5px; min-width:0; }
+  .service-row .s-name{ font-family:var(--serif); font-size:clamp(19px,2.1vw,26px); font-weight:700; text-transform:uppercase; letter-spacing:.01em; transition:color .3s ease; }
+  .service-row:hover .s-name, .service-row.active .s-name{ color:var(--light-wood); }
+  .service-row .s-desc-text{ font-family:var(--sans); font-size:13.5px; font-weight:400; text-transform:none; letter-spacing:0; color:rgba(245,246,242,.55); max-width:40ch; }
+  .service-row .s-arrow{ width:15px; height:15px; opacity:.4; transition:transform .35s ease, opacity .3s ease; flex:none; }
+  .service-row:hover .s-arrow, .service-row.active .s-arrow{ transform:translateX(4px); opacity:1; }
+  .services-visual{ position:relative; min-height:420px; display:none; }
+  @media (min-width:981px){ .services-visual{ display:block; } }
+  .services-visual .simg{
+    position:absolute; inset:22px 22px 22px 44px; background-size:cover; background-position:center;
+    opacity:0; transition:opacity .55s ease; 
+  }
+  .services-visual .simg.active{ opacity:1; }
+  .services-visual .sframe{ position:absolute; inset:22px 22px 22px 44px; border:1px solid rgba(245,241,232,.28); pointer-events:none; }
+  .simg-label{
+    position:absolute; left:44px; bottom:42px; z-index:2; color:var(--warm-white);
+    font-family:var(--serif); font-size:15px; font-weight:700; text-transform:uppercase; letter-spacing:.06em;
+    padding:9px 16px; background:rgba(11,13,10,.72); border-left:2px solid var(--light-wood);
   }
 
-  /* ===== Process: annotated sequence ===== */
-  .sequence{position:relative;padding:40px 0 10px;}
-  .seq-line{position:relative;height:1px;background:var(--hair);margin:0 10px;}
-  .seq-line .fill{position:absolute;top:0;left:0;height:1px;background:var(--line);width:0;transition:width 1.4s cubic-bezier(.22,1,.36,1);}
-  .seq-stops{display:flex;justify-content:space-between;padding:0 10px;}
-  .seq-stop{position:relative;width:25%;display:flex;justify-content:center;}
-  .seq-stop .node{width:9px;height:9px;border:1.5px solid var(--line);background:var(--bg);border-radius:50%;margin-top:-5px;}
-  .seq-card{width:88%;text-align:center;position:relative;}
-  .seq-stop:nth-child(odd) .seq-card{margin-top:22px;}
-  .seq-stop:nth-child(even) .seq-card{margin-top:-150px;}
-  @media (max-width:760px){
-    .seq-stops{flex-direction:column;gap:50px;padding:0;}
-    .seq-line{display:none;}
-    .seq-stop{width:100%;justify-content:flex-start;padding-left:20px;border-left:1px solid var(--hair);}
-    .seq-stop .node{margin-top:0;position:absolute;left:-5.5px;top:2px;}
-    .seq-card{width:100%;text-align:left;margin-top:0 !important;}
+  /* ---------- PROCESS ---------- */
+  .process-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); margin-top:60px; }
+  @media (max-width:880px){ .process-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:520px){ .process-grid{ grid-template-columns:1fr; } }
+  .process-cell{ background:var(--warm-white); padding:38px 30px; }
+  .process-cell .num{ font-size:15px; }
+  .process-cell h3{ font-size:26px; margin-top:14px; }
+  .process-cell p{ font-size:14.5px; line-height:1.6; margin-top:12px; color:#4a463f; max-width:26ch; }
+  .process-cell.reveal{ transform:translateX(-34px); transition:opacity .65s cubic-bezier(.25,.7,.2,1), transform .65s cubic-bezier(.25,.7,.2,1); }
+  .process-cell.reveal.in{ transform:translateX(0); }
+  .process-cell.reveal:nth-child(1){ transition-delay:0s; }
+  .process-cell.reveal:nth-child(2){ transition-delay:.14s; }
+  .process-cell.reveal:nth-child(3){ transition-delay:.28s; }
+  .process-cell.reveal:nth-child(4){ transition-delay:.42s; }
+  @media (prefers-reduced-motion: reduce){ .process-cell.reveal{ transform:none; transition:none; } }
+  .process-foot{ margin-top:56px; font-family:var(--serif); font-weight:700; text-transform:uppercase; letter-spacing:.02em; font-size:clamp(18px,2.4vw,26px); text-align:center; }
+
+  /* ---------- PROJECTS ---------- */
+  .project{ border-top:1px solid var(--line); padding:88px 0; display:grid; grid-template-columns:0.85fr 1.15fr; gap:60px; align-items:center; }
+  .project:nth-child(even){ grid-template-columns:1.15fr 0.85fr; }
+  .project:nth-child(even) .project-media{ order:2; }
+  .project:nth-child(even) .project-text{ order:1; }
+  @media (max-width:900px){
+    .project, .project:nth-child(even){ grid-template-columns:1fr; gap:30px; padding:56px 0; }
+    .project:nth-child(even) .project-media{ order:1; } .project:nth-child(even) .project-text{ order:2; }
   }
-  .seq-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--line);letter-spacing:0.1em;margin-bottom:8px;}
-  .seq-card h3{font-size:16.5px;font-weight:600;margin-bottom:8px;}
-  .seq-card p{font-size:12.5px;color:var(--ink-dim);line-height:1.65;}
-
-  /* ===== Finish schedule swatch chips ===== */
-  .finish-row .chip{width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:10px;border:1px solid var(--hair);}
-  .fc1{background:repeating-linear-gradient(100deg,#8a5a34,#8a5a34 2px,#996b41 2px,#996b41 5px);}
-  .fc2{background:repeating-linear-gradient(95deg,#c9a878,#c9a878 3px,#b6905f 3px,#b6905f 6px);}
-  .fc3{background:repeating-linear-gradient(105deg,#54594c,#54594c 2px,#656c58 2px,#656c58 4px);}
-  .fc4{background:repeating-linear-gradient(90deg,#6f4a2a,#6f4a2a 3px,#7c5533 3px,#7c5533 7px);}
-  .fc5{background:linear-gradient(135deg,#33372e,#454b3b);}
-  .fc6{background:repeating-linear-gradient(98deg,#d8cdb8,#d8cdb8 2px,#c7ba9f 2px,#c7ba9f 5px);}
-
-  /* ===== Sign-off / contact ===== */
-  .signoff{border:1px solid var(--hair);display:grid;grid-template-columns:1.3fr 1fr;}
-  @media (max-width:800px){ .signoff{grid-template-columns:1fr;} }
-  .signoff-main{padding:56px;border-right:1px solid var(--hair);}
-  @media (max-width:800px){ .signoff-main{border-right:none;border-bottom:1px solid var(--hair);} }
-  .signoff-main h2{font-size:clamp(1.7rem,3.4vw,2.4rem);font-weight:600;max-width:14ch;margin-bottom:22px;}
-  .signoff-main p{color:var(--ink-dim);font-size:14px;line-height:1.8;max-width:44ch;margin-bottom:32px;}
-  .signoff-fields{display:grid;}
-  .sf-row{display:grid;grid-template-columns:110px 1fr;border-top:1px solid var(--hair);}
-  .sf-row:first-child{border-top:none;}
-  .sf-key{font-family:'IBM Plex Mono',monospace;padding:16px 20px;font-size:10.5px;color:var(--ink-dim);letter-spacing:0.06em;}
-  .sf-val{font-family:'IBM Plex Mono',monospace;padding:16px 20px;font-size:12.5px;color:var(--ink);border-left:1px solid var(--hair);}
-  .sf-val a{border-bottom:1px solid var(--hair);}
-  .sf-val a:hover{border-color:var(--line);color:var(--line);}
-
-  footer{
-    border-top:1px solid var(--hair);padding:34px 5vw;
-    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
-    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-dim);
+  .project-media{ position:relative; overflow:hidden; aspect-ratio:4/3; }
+  .project-media img{ width:100%; height:100%; object-fit:cover; transition:transform .8s cubic-bezier(.2,.7,.2,1); }
+  .project:hover .project-media img{ transform:scale(1.045); }
+  .project-tag{ font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--timber); font-weight:700; }
+  .project-text h3{ font-size:clamp(28px,3.4vw,42px); margin-top:12px; max-width:14ch; }
+  .project-text .loc{ font-size:14px; color:#57534b; margin-top:10px; }
+  .project-text p.desc{ font-size:15.5px; line-height:1.7; color:#3a3733; margin-top:18px; max-width:46ch; }
+  .project-text .viewbtn{
+    margin-top:26px; display:inline-flex; align-items:center; gap:9px; font-size:13px; font-weight:700;
+    letter-spacing:.05em; text-transform:uppercase; border-bottom:1px solid var(--charcoal); padding-bottom:4px;
   }
-  footer .f-brand{display:flex;align-items:center;gap:9px;font-family:'Bricolage Grotesque',sans-serif;color:var(--ink);font-size:13px;}
-  footer .f-brand img{width:22px;height:22px;border-radius:50%;}
-  footer nav ul{display:flex;gap:22px;list-style:none;}
+  .project-text .viewbtn svg{ width:14px; height:14px; }
 
-  @media (prefers-reduced-motion: reduce){
-    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  /* ---------- CRAFT STRIP ---------- */
+  .craft-strip{ display:grid; grid-template-columns:repeat(4,1fr); }
+  @media (max-width:760px){ .craft-strip{ grid-template-columns:repeat(2,1fr); } }
+  .craft-cell{ position:relative; aspect-ratio:3/4; overflow:hidden; }
+  .craft-cell img{ width:100%; height:100%; object-fit:cover; filter:grayscale(.15) contrast(1.02); transition:transform .7s ease, filter .5s ease; }
+  .craft-cell:hover img{ transform:scale(1.06); filter:grayscale(0); }
+  .craft-cell .label{
+    position:absolute; left:18px; bottom:16px; color:var(--warm-white); font-size:12px; letter-spacing:.14em;
+    text-transform:uppercase; font-weight:700; text-shadow:0 1px 6px rgba(0,0,0,.5);
   }
+
+  /* ---------- QUALITY STATEMENT ---------- */
+  .quality{ text-align:center; padding:150px 0; }
+  .quality h2{ font-size:clamp(34px,6.2vw,78px); line-height:1.06; max-width:16ch; margin:0 auto; }
+  .quality p{ margin:26px auto 0; max-width:46ch; font-size:16px; line-height:1.7; color:rgba(245,241,232,.78); }
+
+  /* ---------- BUDGET ---------- */
+  .budget{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+  @media (max-width:880px){ .budget{ grid-template-columns:1fr; gap:30px; } }
+  .budget h2{ font-size:clamp(28px,3.6vw,44px); line-height:1.12; }
+  .budget p{ font-size:15.5px; line-height:1.75; margin-top:18px; color:#3a3733; max-width:48ch; }
+
+  /* ---------- MATERIALS / PG BISON ---------- */
+  .materials{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:70px 0; }
+  .materials-inner{ display:flex; align-items:center; gap:42px; flex-wrap:wrap; justify-content:space-between; }
+  .board-badge{
+    display:flex; align-items:center; gap:16px; border:1px solid var(--charcoal); padding:16px 24px;
+  }
+  .board-badge .swatch{ width:34px; height:34px; background:linear-gradient(135deg,var(--light-wood),var(--timber)); flex:none; }
+  .board-badge .word{ font-family:var(--serif); font-size:24px; font-weight:700; text-transform:uppercase; letter-spacing:.02em; line-height:1; }
+  .board-badge .word small{ display:block; font-family:var(--sans); font-size:10.5px; letter-spacing:.16em; font-weight:700; color:var(--timber); margin-top:5px; }
+  .materials p.note{ font-size:15px; line-height:1.7; max-width:44ch; color:#3a3733; }
+
+  /* ---------- ABOUT ---------- */
+  .about{ position:relative; color:var(--warm-white); min-height:560px; display:flex; align-items:center; overflow:hidden; }
+  .about-img{ position:absolute; inset:0; background-size:cover; background-position:center; }
+  .about::after{ content:""; position:absolute; inset:0; background:linear-gradient(90deg, rgba(15,14,12,.86) 0%, rgba(15,14,12,.68) 46%, rgba(15,14,12,.32) 100%); }
+  .about-inner{ position:relative; z-index:2; max-width:640px; }
+  .about h2{ font-size:clamp(30px,4vw,48px); }
+  .about p{ font-size:16px; line-height:1.75; margin-top:20px; color:rgba(245,241,232,.85); max-width:50ch; }
+  .about ul{ list-style:none; margin:28px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:12px 28px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:var(--light-wood); }
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:70px; }
+  @media (max-width:900px){ .contact-grid{ grid-template-columns:1fr; gap:40px; } }
+  .contact-grid h2{ font-size:clamp(32px,4.4vw,52px); line-height:1.1; max-width:12ch; }
+  .contact-grid .lede{ margin-top:20px; font-size:16px; line-height:1.7; color:#3a3733; max-width:40ch; }
+  .contact-alt{ margin-top:34px; display:flex; flex-direction:column; gap:10px; font-size:14.5px; }
+  .contact-alt a{ font-weight:700; border-bottom:1px solid var(--charcoal); width:fit-content; }
+  form.enquiry{ display:grid; grid-template-columns:1fr 1fr; gap:22px 20px; }
+  @media (max-width:560px){ form.enquiry{ grid-template-columns:1fr; } }
+  .field{ display:flex; flex-direction:column; gap:8px; }
+  .field.full{ grid-column:1/-1; }
+  .field label{ font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:#57534b; }
+  .field input, .field select, .field textarea{
+    border:none; border-bottom:1px solid var(--line); background:transparent; padding:10px 2px;
+    font-family:var(--sans); font-size:15px; color:var(--charcoal); outline:none;
+    transition:border-color .3s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{ border-color:var(--timber); }
+  .field textarea{ resize:vertical; min-height:70px; }
+  .submit-row{ grid-column:1/-1; display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-top:6px; }
+  .form-note{ font-size:12.5px; color:#7a766e; }
+  .enquiry-handoff{ grid-column:1/-1; }
+  .enquiry-handoff p{ font-size:14px; line-height:1.6; margin:0 0 12px; }
+  .enquiry-handoff a{ text-decoration:underline; text-underline-offset:3px; font-weight:700; }
+  .handoff-actions{ display:flex; flex-wrap:wrap; align-items:center; gap:16px; margin-bottom:16px; }
+  .enquiry-handoff textarea{ width:100%; min-height:180px; padding:12px; border:1px solid var(--line); background:var(--white); font:inherit; line-height:1.5; resize:vertical; }
+  .enquiry-handoff label{ display:block; font-size:13px; margin-bottom:8px; }
+  [hidden]{ display:none !important; }
+  .menu-btn:focus-visible, .navlinks a:focus-visible, .modal-close:focus-visible,
+  .viewbtn:focus-visible, .enquiry-handoff :focus-visible{ outline:2px solid var(--light-wood); outline-offset:4px; }
+
+  /* ---------- FOOTER ---------- */
+  footer{ background:var(--charcoal); color:var(--warm-white); padding:80px 0 32px; }
+  .footer-grid{ display:grid; grid-template-columns:1.4fr repeat(3,1fr); gap:40px; padding-bottom:60px; border-bottom:1px solid var(--line-light); }
+  @media (max-width:760px){ .footer-grid{ grid-template-columns:1fr 1fr; row-gap:36px; } }
+  .footer-grid h4{ font-family:var(--sans); font-size:12px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; color:var(--light-wood); margin-bottom:16px; }
+  .footer-grid ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:11px; font-size:14.5px; }
+  .footer-grid ul a:hover{ color:var(--light-wood); }
+  .footer-brand .brand img{ height:64px; width:64px; }
+  .footer-brand p{ margin-top:14px; font-size:14px; color:rgba(245,241,232,.65); max-width:34ch; line-height:1.6; }
+  .footer-bottom{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; padding-top:26px; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:rgba(245,241,232,.55); }
+
+  /* ---------- WHATSAPP FLOAT ---------- */
+  .wa-float{
+    position:fixed; z-index:800; right:22px; bottom:calc(22px + env(safe-area-inset-bottom,0px));
+    width:58px; height:58px; border-radius:50%; background:#1E1D1B; color:var(--warm-white);
+    display:flex; align-items:center; justify-content:center; box-shadow:0 10px 28px rgba(0,0,0,.32);
+    border:1px solid rgba(245,241,232,.16); transition:transform .3s ease, background-color .3s ease;
+  }
+  .wa-float:hover{ background:var(--timber); transform:translateY(-3px); }
+  .wa-float svg{ width:27px; height:27px; }
+  .wa-tip{
+    position:fixed; z-index:799; right:88px; bottom:calc(34px + env(safe-area-inset-bottom,0px));
+    background:var(--charcoal); color:var(--warm-white); font-size:13px; font-weight:600; padding:9px 14px;
+    opacity:0; transform:translateX(6px); transition:opacity .3s ease, transform .3s ease; pointer-events:none;
+    white-space:nowrap;
+  }
+  .wa-float:hover + .wa-tip, .wa-tip.show{ opacity:1; transform:translateX(0); }
+  @media (max-width:600px){ .wa-tip{ display:none; } .wa-float{ width:52px; height:52px; right:16px; bottom:calc(16px + env(safe-area-inset-bottom,0px)); } .wa-float svg{ width:24px; height:24px; } }
+
+  /* ---------- MODAL ---------- */
+  .modal-backdrop{
+    position:fixed; inset:0; width:100%; height:100%; max-width:none; max-height:none;
+    margin:0; border:0; background:transparent; z-index:900; display:none;
+    align-items:center; justify-content:center; padding:26px; padding-top: calc(26px + env(safe-area-inset-top,0px));
+  }
+  .modal-backdrop[open]{ display:flex; }
+  .modal-backdrop::backdrop{ background:rgba(10,9,8,.9); }
+  .modal{
+    background:var(--warm-white); color:var(--charcoal); width:min(980px,100%); max-height:88vh; overflow-y:auto;
+    position:relative;
+  }
+  .modal-close{
+    position:sticky; top:0; float:right; margin:14px 14px 0 0; background:var(--charcoal); color:var(--warm-white);
+    width:36px; height:36px; border:none; display:flex; align-items:center; justify-content:center; z-index:5;
+  }
+  .modal-head{ padding:34px 40px 0; clear:both; }
+  @media (max-width:600px){ .modal-head{ padding:30px 20px 0; } }
+  .modal-head .project-tag{ }
+  .modal-head h3{ font-size:clamp(26px,4vw,40px); margin-top:10px; }
+  .modal-head .loc{ font-size:14px; color:#57534b; margin-top:8px; }
+  .modal-head p.desc{ font-size:15px; line-height:1.7; color:#3a3733; margin-top:16px; max-width:60ch; }
+  .modal-gallery{ display:grid; grid-template-columns:repeat(2,1fr); gap:3px; margin-top:30px; }
+  @media (max-width:600px){ .modal-gallery{ grid-template-columns:1fr; } }
+  .modal-gallery img{ width:100%; height:100%; object-fit:cover; aspect-ratio:4/3; }
+  .modal-gallery .wide{ grid-column:1/-1; aspect-ratio:16/9; }
+  .modal-gallery .wide img{ aspect-ratio:16/9; }
 </style>
 </head>
 <body>
 
-<div class="grid-bg"></div>
-
-<!-- ===== Loader ===== -->
-<div id="loader" aria-hidden="true">
-  <svg viewBox="0 0 220 130">
-    <path class="draw-path" d="M8 118 L28 12 L48 118 M15 80 H41" style="animation:draw 0.9s 0.05s cubic-bezier(.65,0,.35,1) forwards"/>
-    <path class="draw-path" d="M60 118 V12 H78 A18 18 0 0 1 78 66 H60 M78 66 L96 118" style="animation:draw 0.9s 0.2s cubic-bezier(.65,0,.35,1) forwards"/>
-    <path class="draw-path" d="M106 118 V12 M106 68 L138 12 M106 68 L138 118" style="animation:draw 0.9s 0.35s cubic-bezier(.65,0,.35,1) forwards"/>
-    <path class="draw-path white" d="M154 12 V118 H182" style="animation:draw 0.9s 0.5s cubic-bezier(.65,0,.35,1) forwards"/>
-    <path class="draw-path" d="M8 132 H182" style="animation:draw 0.7s 0.85s cubic-bezier(.65,0,.35,1) forwards"/>
-  </svg>
-  <div class="loader-label">ARKLINE&nbsp;PROJECTS</div>
-</div>
-
-<header id="siteHeader">
-  <a class="brand" href="#top">
-    <img src="logo.jpg" alt="ArkLine Projects logo">
-    <span class="brand-word">ARK<span>LINE</span></span>
-  </a>
-  <nav>
-    <ul>
-      <li><a href="#about">Studio</a></li>
-      <li><a href="#scope">Scope</a></li>
-      <li><a href="#sequence">Process</a></li>
-      <li><a href="#finishes">Finishes</a></li>
-    </ul>
-  </nav>
-  <a class="nav-cta" href="#contact">Get a quote</a>
+<header class="nav" id="siteNav">
+  <div class="wrap bar">
+    <a href="#top" class="brand"><img src="images/logo.png" alt="ArkLine Projects"></a>
+    <nav class="navlinks" id="navLinks">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="cta">Start a Project →</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks" type="button">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </header>
 
 <main id="top">
-  <!-- ===== Hero — the drawing sheet ===== -->
+
+  <!-- HERO -->
   <section class="hero">
-    <div class="hero-top">
-      <div class="hero-note">
-        <div class="kicker">NOTE 01</div>
-        <p>Every project here starts as <b>a line before it's a room</b> — measured, drawn and cut to fit the space you actually have.</p>
+    <div class="hero-img" style="background-image:url('images/hero-art.svg'); background-size:cover; background-position:center;"></div>
+    <div class="hero-shine"></div>
+    <div class="hero-corner">Measured · Drawn · Built · Fitted</div>
+    <div class="wrap hero-inner">
+      <h1>Spaces, measured properly.</h1>
+      <p class="sub">Bespoke carpentry, cabinetry and interior solutions — built around the way you actually live and work.</p>
+      <div class="hero-ctas">
+        <a href="#work" class="btn btn-light">View our work
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#contact" class="btn btn-outline-light">Start a project</a>
       </div>
-      <div class="title-block">
-        <div class="tb-row"><div class="tb-key">PROJECT</div><div class="tb-val">ArkLine Projects</div></div>
-        <div class="tb-row"><div class="tb-key">DRAWING</div><div class="tb-val">Kitchen elevation</div></div>
-        <div class="tb-row"><div class="tb-key">SCALE</div><div class="tb-val">NTS</div></div>
-        <div class="tb-row"><div class="tb-key">SHEET</div><div class="tb-val accent">01 / 05</div></div>
-      </div>
-    </div>
-
-    <div class="hero-drawing">
-      <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" id="heroSvg">
-        <path class="draw-el strong" id="p-floor" d="M60 360 H820"/>
-        <path class="draw-el strong" id="p-base" d="M110 265 H360 V360 H110 Z M235 265 V360"/>
-        <path class="draw-el" id="p-door1" d="M118 273 H227 V352 H118 Z"/>
-        <circle class="dot-el" id="dot-handle1" cx="212" cy="312" r="2"/>
-        <path class="draw-el" id="p-drawers" d="M243 273 H352 M243 305 H352 M243 337 H352 M330 285 H344 M330 317 H344 M330 349 H344"/>
-        <path class="draw-el strong" id="p-counter" d="M96 251 H374 V265 H96 Z"/>
-        <path class="draw-el" id="p-counter-hatch" d="M110 251 L124 265 M140 251 L154 265 M170 251 L184 265 M200 251 L214 265 M230 251 L244 265 M260 251 L274 265 M290 251 L304 265 M320 251 L334 265 M350 251 L364 265"/>
-        <path class="draw-el strong" id="p-wall" d="M110 120 H225 V195 H110 Z M167 120 V195"/>
-        <path class="draw-el" id="p-wall-door" d="M118 128 H217 V187 H118 Z"/>
-        <path class="draw-el strong" id="p-island" d="M470 265 H660 V360 H470 Z M565 265 V360"/>
-        <path class="draw-el" id="p-island-door1" d="M478 273 H557 V352 H478 Z"/>
-        <path class="draw-el" id="p-island-drawers" d="M573 273 H652 M573 305 H652 M573 337 H652"/>
-        <path class="draw-el strong" id="p-island-top" d="M456 251 H674 V265 H456 Z"/>
-        <path class="draw-el" id="p-island-hatch" d="M468 251 L482 265 M498 251 L512 265 M528 251 L542 265 M558 251 L572 265 M588 251 L602 265 M618 251 L632 265 M648 251 L662 265"/>
-        <path class="draw-el" id="p-stool1" d="M500 385 a14 14 0 1 0 0.01 0 M500 371 V360 M493 385 V399 M507 385 V399"/>
-        <path class="draw-el" id="p-stool2" d="M560 385 a14 14 0 1 0 0.01 0 M560 371 V360 M553 385 V399 M567 385 V399"/>
-
-        <path class="dim-el" id="d-width" d="M110 380 V392 M360 380 V392 M110 386 H360 M110 386 l6 -3 M110 386 l6 3 M360 386 l-6 -3 M360 386 l-6 3"/>
-        <text class="label-el" id="l-width" x="200" y="378">2400 mm</text>
-
-        <path class="dim-el" id="d-height" d="M800 120 H812 M800 360 H812 M806 120 V360 M806 120 l-3 6 M806 120 l3 6 M806 360 l-3 -6 M806 360 l3 -6"/>
-        <text class="label-el" id="l-height" x="818" y="242" transform="rotate(90 818 242)">2100 mm</text>
-
-        <path class="dim-el" id="d-island" d="M470 380 V392 M660 380 V392 M470 386 H660 M470 386 l6 -3 M470 386 l6 3 M660 386 l-6 -3 M660 386 l-6 3"/>
-        <text class="label-el" id="l-island" x="530" y="378">1200 mm island</text>
-
-        <path class="lead-el" id="lead1" d="M212 312 L150 280 H60"/>
-        <circle class="dot-el" id="dot1" cx="212" cy="312" r="2.4"/>
-        <text class="cap-label" id="cap1" x="60" y="272">SOFT-CLOSE HINGES</text>
-
-        <path class="lead-el" id="lead2" d="M300 258 L340 190 H420"/>
-        <circle class="dot-el" id="dot2" cx="300" cy="258" r="2.4"/>
-        <text class="cap-label" id="cap2" x="420" y="182">20MM ENGINEERED STONE</text>
-
-        <path class="lead-el" id="lead3" d="M167 128 L167 60 H240"/>
-        <circle class="dot-el" id="dot3" cx="167" cy="128" r="2.4"/>
-        <text class="cap-label" id="cap3" x="240" y="52">SOLID OAK FRONTS</text>
-
-        <path class="lead-el" id="lead4" d="M530 385 L600 320 H700"/>
-        <circle class="dot-el" id="dot4" cx="530" cy="385" r="2.4"/>
-        <text class="cap-label" id="cap4" x="700" y="312">BUILT-IN ISLAND SEATING</text>
-
-        <text class="cap-label" id="dtitle" x="60" y="30" style="font-size:11px;letter-spacing:0.14em;">ELEVATION A-A</text>
-        <text class="cap-label" id="dsub" x="60" y="46">SCALE NOT TO SCALE</text>
-      </svg>
-    </div>
-
-    <div class="hero-bottom">
-      <div class="hero-actions">
-        <a class="btn-primary" href="#contact">Get a quote</a>
-        <a class="btn-ghost" href="#scope">View scope of work</a>
-      </div>
-      <div class="scroll-hint"><span class="tick"></span> Sheet continues below</div>
     </div>
   </section>
 
-  <!-- ===== About ===== -->
-  <section id="about">
-    <div class="sheet-header reveal-el">
-      <div>
-        <span class="sheet-num">SHEET 02 / STUDIO</span>
-        <h2>Who's holding the pencil.</h2>
+  <!-- INTRO -->
+  <section class="section-pad">
+    <div class="wrap intro-grid">
+      <div class="reveal">
+        <div class="eyebrow"><span class="ey-num">01</span>About the work</div>
+        <h2>From first measure to final wipe-down.</h2>
+        <p class="lede">ArkLine Projects turns ideas into functional spaces, tailored to your needs, your style and your budget. Every project is measured on site, drawn up, built in our workshop and fitted into your home or business.</p>
       </div>
-      <p class="sheet-note">A short brief on how we work before you look at the scope of work.</p>
-    </div>
-    <div class="about-grid">
-      <p class="reveal-el">ArkLine Projects turns your ideas into beautiful, functional spaces tailored to your needs, style and budget. We provide <b>quality carpentry, cabinetry, renovations and interior solutions</b> — measured on site, drawn up, then built in the workshop before it's fitted into your home.</p>
-      <p class="reveal-el">We're committed to quality workmanship and attention to detail, from the first tape-measure mark to the final wipe-down. If a hinge doesn't close right or an edge doesn't sit flush, we go back and fix it before we call a job finished.</p>
+      <div class="hinge-quote reveal">
+        <p>“If a hinge doesn't close right, or an edge doesn't sit flush, we go back and fix it before we call a job finished.”</p>
+        <span>The ArkLine standard</span>
+      </div>
     </div>
   </section>
 
-  <!-- ===== Scope of work ===== -->
-  <section id="scope">
-    <div class="sheet-header reveal-el">
-      <div>
-        <span class="sheet-num">SHEET 03 / SCOPE OF WORK</span>
-        <h2>What's on the schedule.</h2>
-      </div>
-      <p class="sheet-note">Nine items, read like the schedule on a real set of drawings — pick one, or combine a few.</p>
+  <!-- SERVICES -->
+  <section class="dark section-pad" id="services">
+    <div class="wrap">
+      <div class="eyebrow reveal"><span class="ey-num">02</span>What we do</div>
+      <h2 class="reveal" style="font-size:clamp(30px,4vw,46px); margin-top:16px; color:var(--warm-white);">Our services</h2>
     </div>
-    <div class="schedule reveal-el">
-      <div class="sched-row head">
-        <div class="sched-cell">MARK</div>
-        <div class="sched-cell">ITEM</div>
-        <div class="sched-cell">DESCRIPTION</div>
-      </div>
-      <div id="scheduleBody"></div>
-    </div>
-  </section>
+    <div class="wrap" style="margin-top:50px;">
+      <div class="services-shell">
+        <div class="services-list" id="servicesList">
 
-  <!-- ===== Sequence ===== -->
-  <section id="sequence">
-    <div class="sheet-header reveal-el">
-      <div>
-        <span class="sheet-num">SHEET 04 / SEQUENCE</span>
-        <h2>How a job runs, start to finish.</h2>
-      </div>
-      <p class="sheet-note">Four stages on one line — no surprise change orders in between.</p>
-    </div>
-    <div class="sequence reveal-el">
-      <div class="seq-line" id="seqLine"><div class="fill" id="seqFill"></div></div>
-      <div class="seq-stops">
-        <div class="seq-stop"><div class="node"></div>
-          <div class="seq-card"><div class="seq-tag">01</div><h3>Measure</h3><p>We visit site, listen to the brief, and take exact measurements.</p></div>
+          <div class="service-row active" data-img="images/kitchenette.jpg">
+            <button class="s-toggle" aria-expanded="true">
+              <span class="s-num">01</span>
+              <span class="s-copy">
+                <span class="s-name">Kitchens</span>
+                <span class="s-desc-text">Full kitchen builds and remodels, from carcass to countertop.</span>
+              </span>
+              <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <div class="service-row" data-img="images/bedroom-closets-1.jpg">
+            <button class="s-toggle" aria-expanded="false">
+              <span class="s-num">02</span>
+              <span class="s-copy">
+                <span class="s-name">Built-in cupboards</span>
+                <span class="s-desc-text">Wardrobes and storage built into the shape of the room.</span>
+              </span>
+              <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <div class="service-row" data-img="images/floating-shelves-cabinets-1.jpg">
+            <button class="s-toggle" aria-expanded="false">
+              <span class="s-num">03</span>
+              <span class="s-copy">
+                <span class="s-name">Custom cabinets</span>
+                <span class="s-desc-text">Cabinetry designed and joined for an exact fit.</span>
+              </span>
+              <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <div class="service-row" data-img="images/tv-unit-wall-panel.jpg">
+            <button class="s-toggle" aria-expanded="false">
+              <span class="s-num">04</span>
+              <span class="s-copy">
+                <span class="s-name">TV units</span>
+                <span class="s-desc-text">Floating units that carry the cables you don't want to see.</span>
+              </span>
+              <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <div class="service-row" data-img="images/tv-unit-wall-panel.jpg">
+            <button class="s-toggle" aria-expanded="false">
+              <span class="s-num">05</span>
+              <span class="s-copy">
+                <span class="s-name">Wall panelling</span>
+                <span class="s-desc-text">Slatted and panelled walls that finish a room properly.</span>
+              </span>
+              <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <div class="service-row" data-img="images/shop-fitting-3.jpg">
+            <button class="s-toggle" aria-expanded="false">
+              <span class="s-num">06</span>
+              <span class="s-copy">
+                <span class="s-name">Office spaces</span>
+                <span class="s-desc-text">Desks, counters and joinery built for working spaces.</span>
+              </span>
+              <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <div class="service-row" data-img="images/bathroom-vanity.jpg">
+            <button class="s-toggle" aria-expanded="false">
+              <span class="s-num">07</span>
+              <span class="s-copy">
+                <span class="s-name">Vanities</span>
+                <span class="s-desc-text">Basins, counters and storage built for daily use.</span>
+              </span>
+              <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <div class="service-row" data-img="images/shop-fitting-4.jpg">
+            <button class="s-toggle" aria-expanded="false">
+              <span class="s-num">08</span>
+              <span class="s-copy">
+                <span class="s-name">Countertops</span>
+                <span class="s-desc-text">Cut, edged and fitted to the millimetre.</span>
+              </span>
+              <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <div class="service-row" data-img="images/shop-fitting-2.jpg">
+            <button class="s-toggle" aria-expanded="false">
+              <span class="s-num">09</span>
+              <span class="s-copy">
+                <span class="s-name">Shop fitting</span>
+                <span class="s-desc-text">Counters, shelving and fixtures for retail and commercial spaces.</span>
+              </span>
+              <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
         </div>
-        <div class="seq-stop"><div class="node"></div>
-          <div class="seq-card"><div class="seq-tag">02</div><h3>Draw &amp; quote</h3><p>You get a clear layout and a line-item quote before anything's cut.</p></div>
-        </div>
-        <div class="seq-stop"><div class="node"></div>
-          <div class="seq-card"><div class="seq-tag">03</div><h3>Build &amp; fit</h3><p>Cutting and joinery in the workshop, then careful on-site install.</p></div>
-        </div>
-        <div class="seq-stop"><div class="node"></div>
-          <div class="seq-card"><div class="seq-tag">04</div><h3>Sign-off</h3><p>We check every hinge and edge with you before calling it done.</p></div>
+        <div class="services-visual">
+          <div class="simg active" data-key="images/kitchenette.jpg" style="background-image:url('images/kitchenette.jpg')"></div>
+          <div class="sframe"></div>
+          <div class="simg-label" id="simgLabel">Kitchens</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== Finish schedule ===== -->
-  <section id="finishes">
-    <div class="sheet-header reveal-el">
-      <div>
-        <span class="sheet-num">SHEET 05 / FINISH SCHEDULE</span>
-        <h2>Tones we work with.</h2>
+  <!-- PROCESS -->
+  <section class="section-pad" id="process">
+    <div class="wrap">
+      <div class="eyebrow reveal"><span class="ey-num">03</span>How we work</div>
+      <h2 class="reveal" style="font-size:clamp(30px,4vw,46px); margin-top:16px;">Measure. Draw. Build. Fit.</h2>
+      <div class="process-grid">
+        <div class="process-cell reveal">
+          <div class="num">01</div>
+          <h3>Measure</h3>
+          <p>We visit your space, take accurate measurements and understand what you need.</p>
+        </div>
+        <div class="process-cell reveal">
+          <div class="num">02</div>
+          <h3>Draw</h3>
+          <p>Your idea becomes a practical design before anything is built.</p>
+        </div>
+        <div class="process-cell reveal">
+          <div class="num">03</div>
+          <h3>Build</h3>
+          <p>Your cabinetry is constructed in our workshop with attention to every detail.</p>
+        </div>
+        <div class="process-cell reveal">
+          <div class="num">04</div>
+          <h3>Fit</h3>
+          <p>We bring it to site, install it and make sure everything sits and functions properly.</p>
+        </div>
       </div>
-      <p class="sheet-note">A starting palette — matched to your space when we draw up the design.</p>
-    </div>
-    <div class="schedule reveal-el">
-      <div class="sched-row head">
-        <div class="sched-cell">CODE</div>
-        <div class="sched-cell">FINISH</div>
-        <div class="sched-cell">TYPICAL USE</div>
-      </div>
-      <div id="finishBody"></div>
+      <p class="process-foot reveal">No shortcuts. No guessing. No “it'll do.”</p>
     </div>
   </section>
 
-  <!-- ===== Sign-off / contact ===== -->
-  <section id="contact">
-    <div class="sheet-header reveal-el">
-      <div>
-        <span class="sheet-num">SHEET 06 / SIGN-OFF</span>
-        <h2>Let's put your space on paper.</h2>
-      </div>
+  <!-- WORK / PROJECTS -->
+  <section class="section-pad" id="work" style="padding-top:60px;">
+    <div class="wrap">
+      <div class="eyebrow reveal"><span class="ey-num">04</span>Selected work</div>
+      <h2 class="reveal" style="font-size:clamp(30px,4vw,46px); margin-top:16px;">Projects on the ground.</h2>
     </div>
-    <div class="signoff reveal-el">
-      <div class="signoff-main">
-        <h2>Ready when you are.</h2>
-        <p>Tell us what you're building — a single cupboard or a full fit-out — and we'll come measure, draw it up, and quote it properly.</p>
-        <a class="btn-primary" href="mailto:hello@arklineprojects.co.za">Request a quote</a>
-      </div>
-      <div class="signoff-fields">
-        <div class="sf-row"><div class="sf-key">EMAIL</div><div class="sf-val"><a href="mailto:hello@arklineprojects.co.za">hello@arklineprojects.co.za</a></div></div>
-        <div class="sf-row"><div class="sf-key">PHONE</div><div class="sf-val"><a href="tel:+27000000000">+27 00 000 0000</a></div></div>
-        <div class="sf-row"><div class="sf-key">STATUS</div><div class="sf-val">Taking new projects</div></div>
-        <div class="sf-row"><div class="sf-key">AREA</div><div class="sf-val">On-site &amp; workshop-based</div></div>
-      </div>
+
+    <div class="wrap">
+
+      <article class="project reveal" data-project="rms">
+        <div class="project-media"><img src="images/shop-fitting-1.jpg" alt="Bosch Car Service reception, RMS Automotive Group" loading="lazy"></div>
+        <div class="project-text">
+          <div class="project-tag">Shop Fitting · Commercial</div>
+          <h3>RMS Automotive Group — Bosch Car Service</h3>
+          <div class="loc">Full workshop fit-out</div>
+          <p class="desc">A complete commercial fit-out: reception counter, branded waiting lounge, coffee bar, office joinery and a self-service refreshment station — all built and installed to work as hard as the workshop around it.</p>
+          <button class="viewbtn" data-open="rms">View project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="project reveal" data-project="closets">
+        <div class="project-media"><img src="images/bedroom-closets-1.jpg" alt="Built-in bedroom wardrobe" loading="lazy"></div>
+        <div class="project-text">
+          <div class="project-tag">Built-in Cupboards · Residential</div>
+          <h3>Bedroom Closets &amp; Study</h3>
+          <div class="loc">Private residence</div>
+          <p class="desc">A full-height wardrobe wall finished in soft-close white, paired with a slatted feature panel and a mobile study desk with brass hardware.</p>
+          <button class="viewbtn" data-open="closets">View project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="project reveal" data-project="vanity">
+        <div class="project-media"><img src="images/bathroom-vanity.jpg" alt="Floating bathroom vanity with backlit mirror" loading="lazy"></div>
+        <div class="project-text">
+          <div class="project-tag">Vanities · Residential</div>
+          <h3>Backlit Bathroom Vanity</h3>
+          <div class="loc">Private residence</div>
+          <p class="desc">A floating vanity unit with a vessel basin, set against a timber slat feature wall with a backlit mirror built into the design.</p>
+          <button class="viewbtn" data-open="vanity">View project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="project reveal" data-project="tv">
+        <div class="project-media"><img src="images/tv-unit-wall-panel.jpg" alt="Floating TV unit and timber wall panelling" loading="lazy"></div>
+        <div class="project-text">
+          <div class="project-tag">TV Units · Wall Panelling · Residential</div>
+          <h3>Floating Media Wall</h3>
+          <div class="loc">Private residence</div>
+          <p class="desc">Full-height timber slat panelling with an integrated floating media unit — cables concealed, backlighting built into the base.</p>
+          <button class="viewbtn" data-open="tv">View project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="project reveal" data-project="kitchen">
+        <div class="project-media"><img src="images/kitchenette.jpg" alt="Kitchenette cabinetry" loading="lazy"></div>
+        <div class="project-text">
+          <div class="project-tag">Kitchens · Cabinetry</div>
+          <h3>Kitchenette Cabinetry</h3>
+          <div class="loc">Compact fit-out</div>
+          <p class="desc">Wall and base cabinetry built to make the most of a small footprint, with an integrated pull-out drawer and open display shelving.</p>
+          <button class="viewbtn" data-open="kitchen">View project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </article>
+
     </div>
   </section>
+
+  <!-- CRAFTSMANSHIP -->
+  <section class="dark">
+    <div class="wrap section-pad" style="padding-bottom:0;">
+      <div class="eyebrow reveal"><span class="ey-num">05</span>The craft</div>
+      <h2 class="reveal" style="font-size:clamp(30px,4vw,46px); margin-top:16px; color:var(--warm-white); max-width:16ch;">The details matter.</h2>
+      <p class="reveal" style="font-size:16px; line-height:1.75; color:rgba(245,241,232,.78); max-width:52ch; margin-top:18px;">Good workmanship isn't just what you see when the job is finished. It's what's underneath it, behind it, and in every small detail you use every day.</p>
+    </div>
+    <div class="craft-strip">
+      <div class="craft-cell"><img src="images/floating-shelves-cabinets-1.jpg" alt="Lit display shelving detail" loading="lazy"><span class="label">Joinery</span></div>
+      <div class="craft-cell"><img src="images/custom-benches.jpg" alt="Custom bench seating detail" loading="lazy"><span class="label">Finishing</span></div>
+      <div class="craft-cell"><img src="images/shop-fitting-4.jpg" alt="Countertop and cabinetry detail" loading="lazy"><span class="label">Fitting</span></div>
+      <div class="craft-cell"><img src="images/floating-shelves-cabinets-2.jpg" alt="Completed waiting area detail" loading="lazy"><span class="label">Finished</span></div>
+    </div>
+  </section>
+
+  <!-- QUALITY STATEMENT -->
+  <section class="dark quality">
+    <div class="wrap">
+      <h2 class="reveal" style="color:var(--warm-white);">If it doesn't close right, it's not finished.</h2>
+      <p class="reveal">We pay attention to the details most people don't notice — because those are usually the details that matter.</p>
+    </div>
+  </section>
+
+  <!-- BUDGET -->
+  <section class="section-pad">
+    <div class="wrap budget">
+      <div class="reveal">
+        <div class="eyebrow"><span class="ey-num">06</span>Working with you</div>
+        <h2 style="margin-top:16px;">Built around your space. Designed around your budget.</h2>
+      </div>
+      <p class="reveal">We work with clients to find practical solutions that don't compromise on the fundamentals of good workmanship. Every quote is built around what the project actually needs — not a package you have to fit into.</p>
+    </div>
+  </section>
+
+  <!-- MATERIALS -->
+  <section class="materials">
+    <div class="wrap materials-inner">
+      <div class="board-badge reveal">
+        <span class="swatch"></span>
+        <span class="word">PG Bison<small>Trusted Board</small></span>
+      </div>
+      <p class="note reveal">We build with PG Bison boards — quality, locally-manufactured material trusted across the cabinetry industry, on every kitchen, cupboard and cabinet we fit.</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-img" style="background-image:url('images/shop-fitting-5.jpg')"></div>
+    <div class="wrap about-inner">
+      <div class="eyebrow reveal"><span class="ey-num">07</span>About ArkLine</div>
+      <h2 class="reveal" style="margin-top:16px;">We build spaces that work.</h2>
+      <p class="reveal">ArkLine Projects is a carpentry and interior fit-out company specialising in bespoke cabinetry — from residential kitchens and built-in cupboards to full commercial shop fits. Every project is measured on site, drawn up properly, built in our workshop and fitted with the same standard: if it doesn't sit right, it isn't finished.</p>
+      <ul class="reveal">
+        <li>Residential</li><li>Commercial</li><li>Shop Fitting</li><li>Custom Cabinetry</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section-pad" id="contact">
+    <div class="wrap contact-grid">
+      <div class="reveal">
+        <div class="eyebrow"><span class="ey-num">08</span>Start a project</div>
+        <h2 style="margin-top:16px;">Have a space in mind?</h2>
+        <p class="lede">Tell us what you're looking to build and we'll come back to you with next steps — usually within a day or two.</p>
+        <div class="contact-alt">
+          <a id="waContactLink" href="#" target="_blank" rel="noopener">Chat with us on WhatsApp →</a>
+          <a href="mailto:arklineprojects@outlook.com">arklineprojects@outlook.com</a>
+        </div>
+      </div>
+
+      <form class="enquiry reveal" id="enquiryForm">
+        <div class="field">
+          <label for="f-name">Name *</label>
+          <input id="f-name" name="name" type="text" required>
+        </div>
+        <div class="field">
+          <label for="f-phone">Phone *</label>
+          <input id="f-phone" name="phone" type="tel" required>
+        </div>
+        <div class="field full">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email">
+        </div>
+        <div class="field full">
+          <label for="f-type">What are you looking to build?</label>
+          <select id="f-type" name="type">
+            <option>Kitchen</option>
+            <option>Built-in cupboards</option>
+            <option>Custom cabinetry</option>
+            <option>TV unit / Wall panelling</option>
+            <option>Vanity</option>
+            <option>Shop fitting</option>
+            <option>Renovation</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="f-loc">Project location</label>
+          <input id="f-loc" name="location" type="text" placeholder="Suburb, city">
+        </div>
+        <div class="field full">
+          <label for="f-msg">Tell us about your project</label>
+          <textarea id="f-msg" name="message" rows="4"></textarea>
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="btn btn-dark">Continue in WhatsApp
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+          <span class="form-note">Opens a pre-filled message. Attach any photos, drawings or PDFs in WhatsApp, then press Send.</span>
+        </div>
+        <div class="enquiry-handoff">
+          <p id="enquiryStatus" role="status" aria-live="polite" aria-atomic="true"></p>
+          <div id="enquiryFallback" hidden>
+            <div class="handoff-actions">
+              <a id="enquiryWaLink" target="_blank" rel="noopener noreferrer">Open your message in WhatsApp →</a>
+              <button id="copyEnquiry" type="button" class="btn btn-dark">Copy message</button>
+            </div>
+            <label for="enquiryMessage">Your prepared message — you can also select and copy it below</label>
+            <textarea id="enquiryMessage" readonly rows="7"></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
 </main>
 
 <footer>
-  <a class="f-brand" href="#top"><img src="logo.jpg" alt="ArkLine Projects"> ArkLine Projects</a>
-  <nav><ul>
-    <li><a href="#about">Studio</a></li>
-    <li><a href="#scope">Scope</a></li>
-    <li><a href="#sequence">Process</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul></nav>
-  <span>© 2026 ArkLine Projects</span>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="brand"><img src="images/logo.png" alt="ArkLine Projects"></a>
+        <p>Bespoke carpentry, cabinetry and interior solutions. Measured properly, built to last.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Kitchens</a></li>
+          <li><a href="#services">Cabinetry</a></li>
+          <li><a href="#services">Renovations</a></li>
+          <li><a href="#services">Interior Solutions</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a id="waFooterLink" href="#" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="mailto:arklineprojects@outlook.com">Email</a></li>
+          <li><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="yr"></span> ArkLine Projects</span>
+      <span>Measured · Built · Fitted</span>
+    </div>
+  </div>
 </footer>
 
+<!-- WHATSAPP FLOAT -->
+<a class="wa-float" id="waFloat" href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.01 3C9.38 3 4 8.38 4 15.01c0 2.39.7 4.62 1.9 6.5L4 29l7.68-1.86a12 12 0 0 0 4.33.8h.01c6.63 0 12.01-5.38 12.01-12.01C28.03 8.38 22.65 3 16.01 3zm7.02 17.1c-.3.83-1.5 1.53-2.42 1.72-.65.13-1.5.24-4.35-.93-3.65-1.5-6-5.18-6.18-5.42-.18-.24-1.48-1.97-1.48-3.76s.94-2.67 1.27-3.04c.33-.37.73-.46.97-.46.24 0 .49 0 .7.01.23.01.53-.09.82.63.3.73 1.03 2.53 1.12 2.71.09.18.15.4.03.64-.12.24-.18.4-.36.61-.18.21-.38.47-.54.63-.18.18-.37.37-.16.73.21.36.94 1.55 2.02 2.51 1.39 1.24 2.56 1.63 2.92 1.81.36.18.57.15.78-.09.21-.24.9-1.05 1.14-1.41.24-.36.48-.3.81-.18.33.12 2.1.99 2.46 1.17.36.18.6.27.69.42.09.15.09.85-.21 1.68z"/></svg>
+</a>
+<span class="wa-tip" id="waTip">Chat with ArkLine on WhatsApp</span>
+
+<!-- PROJECT MODAL -->
+<dialog class="modal-backdrop" id="modalBackdrop" aria-labelledby="mTitle">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="modal-head">
+      <div class="project-tag" id="mTag"></div>
+      <h3 id="mTitle" tabindex="-1"></h3>
+      <div class="loc" id="mLoc"></div>
+      <p class="desc" id="mDesc"></p>
+    </div>
+    <div class="modal-gallery" id="mGallery"></div>
+    <div style="height:40px;"></div>
+  </div>
+</dialog>
+
 <script>
-  const scope = [
-    ["A1","Kitchens","Full kitchen builds and remodels, from carcass to countertop."],
-    ["A2","Built-in cupboards","Wardrobes and storage shaped exactly to your walls and corners."],
-    ["A3","Custom cabinets","One-off cabinetry designed around what you actually need to store."],
-    ["A4","TV units","Media units and floating consoles built for your screen and cable runs."],
-    ["A5","Wall panelling","Slat and panel feature walls that add texture without clutter."],
-    ["A6","Office spaces","Built-in desks, shelving and storage for a workspace that works."],
-    ["A7","Vanities","Bathroom vanities sized to fit, finished to survive daily use."],
-    ["A8","Countertops","Worktops fitted flush and finished, from kitchens to vanities."],
-    ["A9","Shop fitting","Retail and commercial interiors built to spec and to deadline."]
-  ];
-  const schedBody = document.getElementById('scheduleBody');
-  scope.forEach(([mark,item,desc])=>{
-    const row = document.createElement('div');
-    row.className = 'sched-row reveal-el';
-    row.innerHTML = `<div class="sched-cell mark">${mark}</div><div class="sched-cell item">${item}</div><div class="sched-cell desc">${desc}</div>`;
-    schedBody.appendChild(row);
-  });
+  // ------- CONFIG -------
+  // Replace with the real ArkLine Projects WhatsApp number, international format, no + or leading 0.
+  var WHATSAPP_NUMBER = "27607991019"; // 060 799 1019
 
-  const finishes = [
-    ["FIN-01","fc1","Walnut woodgrain","Cabinet fronts, feature panelling"],
-    ["FIN-02","fc2","Natural oak","Open shelving, wall units"],
-    ["FIN-03","fc3","Matte olive","Painted cabinetry, joinery"],
-    ["FIN-04","fc4","Dark mahogany","Vanities, office builds"],
-    ["FIN-05","fc5","Charcoal matte","Handles, kickboards, hardware"],
-    ["FIN-06","fc6","Limed ash","Countertops, light interiors"]
-  ];
-  const finBody = document.getElementById('finishBody');
-  finishes.forEach(([code,cls,name,use])=>{
-    const row = document.createElement('div');
-    row.className = 'sched-row reveal-el finish-row';
-    row.innerHTML = `<div class="sched-cell mark">${code}</div><div class="sched-cell item"><span class="chip ${cls}"></span>${name}</div><div class="sched-cell desc">${use}</div>`;
-    finBody.appendChild(row);
-  });
+  var images = {
+    BOSCH1: "images/shop-fitting-1.jpg",
+    BOSCH2: "images/shop-fitting-2.jpg",
+    OFFICE: "images/shop-fitting-3.jpg",
+    COFFEE: "images/shop-fitting-4.jpg",
+    REFRESH: "images/shop-fitting-5.jpg",
+    BENCH: "images/custom-benches.jpg",
+    NOOK: "images/floating-shelves-cabinets-2.jpg",
+    DISPLAY: "images/floating-shelves-cabinets-1.jpg",
+    VANITY: "images/bathroom-vanity.jpg",
+    TVUNIT: "images/tv-unit-wall-panel.jpg",
+    DESK: "images/bedroom-closets-2.jpg",
+    WARDROBE: "images/bedroom-closets-1.jpg",
+    KITCHEN: "images/kitchenette.jpg"
+  };
 
-  const loader = document.getElementById('loader');
-  const header = document.getElementById('siteHeader');
-
-  function drawHero(){
-    const svg = document.getElementById('heroSvg');
-    const structural = svg.querySelectorAll('.draw-el');
-    const dims = svg.querySelectorAll('.dim-el, .label-el');
-    const leaders = svg.querySelectorAll('.lead-el, .dot-el, .cap-label');
-
-    structural.forEach((el,i)=>{
-      el.style.animation = `draw 0.9s ${0.05*i}s cubic-bezier(.65,0,.35,1) forwards`;
-    });
-    const structDuration = 0.05*structural.length + 0.9;
-    dims.forEach((el,i)=>{
-      if(el.classList.contains('label-el')){
-        el.style.animation = `fadeIn .5s ${structDuration + 0.1*i}s ease forwards`;
-      }else{
-        el.style.animation = `draw .6s ${structDuration + 0.1*i}s cubic-bezier(.65,0,.35,1) forwards`;
-      }
-    });
-    const dimDuration = structDuration + 0.1*dims.length + 0.3;
-    leaders.forEach((el,i)=>{
-      if(el.tagName === 'circle'){
-        el.style.animation = `dotIn .3s ${dimDuration + 0.18*i}s ease forwards`;
-      }else if(el.classList.contains('cap-label')){
-        el.style.animation = `fadeIn .5s ${dimDuration + 0.18*i + 0.15}s ease forwards`;
-      }else{
-        el.style.animation = `draw .5s ${dimDuration + 0.18*i}s cubic-bezier(.65,0,.35,1) forwards`;
-      }
-    });
-  }
-
-  function revealHero(){
-    header.classList.add('reveal');
-    document.querySelector('.hero-note').style.animation = 'fadeUp .8s .05s cubic-bezier(.22,1,.36,1) forwards';
-    document.querySelector('.title-block').style.animation = 'fadeUp .8s .18s cubic-bezier(.22,1,.36,1) forwards';
-    document.querySelector('.hero-bottom').style.animation = 'fadeUp .8s .3s cubic-bezier(.22,1,.36,1) forwards';
-    drawHero();
-  }
-
-  window.addEventListener('load', ()=>{
-    setTimeout(()=>{
-      loader.classList.add('hide');
-      revealHero();
-      setTimeout(()=> loader.style.display='none', 1100);
-    }, 1750);
-  });
-  setTimeout(()=>{
-    if(loader.style.display !== 'none'){
-      loader.classList.add('hide');
-      revealHero();
-      setTimeout(()=> loader.style.display='none', 1100);
+  var projects = {
+    rms: {
+      tag: "Shop Fitting · Commercial",
+      title: "RMS Automotive Group — Bosch Car Service",
+      loc: "Full workshop fit-out",
+      desc: "A ground-up commercial fit-out for RMS Automotive Group's Bosch Car Service centre: a full reception and service counter, a branded waiting lounge with a backlit sign wall, a coffee bar, office joinery for the front desk, and a self-service refreshment station — all measured, built and installed as one continuous project.",
+      images: [
+        {k:"BOSCH1", alt:"Bosch Car Service reception counter"},
+        {k:"BOSCH2", alt:"Bosch Car Service reception, wide view"},
+        {k:"BENCH", alt:"RMS Automotive Group branded bench seating", wide:true},
+        {k:"NOOK", alt:"Waiting lounge seating nook"},
+        {k:"DISPLAY", alt:"Backlit glass display shelving"},
+        {k:"COFFEE", alt:"Coffee bar counter"},
+        {k:"OFFICE", alt:"Front office desk and joinery"},
+        {k:"REFRESH", alt:"RMS Refresh self-service station"}
+      ]
+    },
+    closets: {
+      tag: "Built-in Cupboards · Residential",
+      title: "Bedroom Closets & Study",
+      loc: "Private residence",
+      desc: "A full-height, soft-close wardrobe wall in matte white with brass hardware, set against a slatted feature panel. Paired with a mobile study desk unit finished to match.",
+      images: [
+        {k:"WARDROBE", alt:"Full-height built-in wardrobe", wide:true},
+        {k:"DESK", alt:"Study desk with drawer units"}
+      ]
+    },
+    vanity: {
+      tag: "Vanities · Residential",
+      title: "Backlit Bathroom Vanity",
+      loc: "Private residence",
+      desc: "A floating vanity unit with a vessel basin and matte black tapware, set against a timber slat feature wall with a backlit mirror built directly into the joinery.",
+      images: [
+        {k:"VANITY", alt:"Floating bathroom vanity with backlit mirror", wide:true}
+      ]
+    },
+    tv: {
+      tag: "TV Units · Wall Panelling · Residential",
+      title: "Floating Media Wall",
+      loc: "Private residence",
+      desc: "Full-height timber slat panelling with an integrated floating media unit. Cables are fully concealed and a warm LED strip is built into the base for a soft glow along the floor.",
+      images: [
+        {k:"TVUNIT", alt:"Floating TV unit and timber wall panelling", wide:true}
+      ]
+    },
+    kitchen: {
+      tag: "Kitchens · Cabinetry",
+      title: "Kitchenette Cabinetry",
+      loc: "Compact fit-out",
+      desc: "Wall and base cabinetry designed to make the most of a small footprint — open display shelving, a pull-out drawer unit and a full-height pantry column.",
+      images: [
+        {k:"KITCHEN", alt:"Kitchenette wall and base cabinetry", wide:true}
+      ]
     }
-  }, 3200);
+  };
 
-  const styleTag = document.createElement('style');
-  styleTag.textContent = `
-    @keyframes fadeIn{ to{opacity:1;} }
-    @keyframes fadeUp{ from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
-    @keyframes dotIn{ to{opacity:1;} }
-    .hero-note, .title-block, .hero-bottom{opacity:0;}
-  `;
-  document.head.appendChild(styleTag);
+  // ------- NAV -------
+  var nav = document.getElementById('siteNav');
+  function onScroll(){
+    if(window.scrollY > 40){ nav.classList.add('solid'); } else { nav.classList.remove('solid'); }
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
 
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        entry.target.classList.add('in');
-        io.unobserve(entry.target);
-      }
-    });
-  }, {threshold:0.12, rootMargin:'0px 0px -60px 0px'});
+  var menuBtn = document.getElementById('menuBtn');
+  var navLinks = document.getElementById('navLinks');
+  var mobileNav = window.matchMedia('(max-width:880px)');
+  function setMenuOpen(open, restoreFocus){
+    open = mobileNav.matches && open;
+    navLinks.classList.toggle('open', open);
+    menuBtn.classList.toggle('is-open', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    navLinks.inert = mobileNav.matches && !open;
+    if(mobileNav.matches){ navLinks.setAttribute('aria-hidden', String(!open)); }
+    else { navLinks.removeAttribute('aria-hidden'); }
+    if(restoreFocus && mobileNav.matches){ menuBtn.focus({preventScroll:true}); }
+  }
+  menuBtn.addEventListener('click', function(){
+    setMenuOpen(!navLinks.classList.contains('open'));
+  });
+  navLinks.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ setMenuOpen(false, mobileNav.matches); });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && navLinks.classList.contains('open')){
+      e.preventDefault(); setMenuOpen(false, true);
+    }
+  });
+  document.addEventListener('click', function(e){
+    if(navLinks.classList.contains('open') && !navLinks.contains(e.target) && !menuBtn.contains(e.target)){
+      setMenuOpen(false, navLinks.contains(document.activeElement));
+    }
+  });
+  document.addEventListener('focusin', function(e){
+    if(navLinks.classList.contains('open') && !navLinks.contains(e.target) && !menuBtn.contains(e.target)){
+      setMenuOpen(false);
+    }
+  });
+  mobileNav.addEventListener('change', function(){
+    var focused = document.activeElement;
+    setMenuOpen(false, mobileNav.matches && navLinks.contains(focused));
+    if(!mobileNav.matches && focused === menuBtn){ navLinks.querySelector('a').focus({preventScroll:true}); }
+  });
+  setMenuOpen(false);
 
-  document.querySelectorAll('.reveal-el').forEach((el,i)=>{
-    el.style.transitionDelay = (i%8)*0.05 + 's';
-    io.observe(el);
+  // ------- SERVICES INTERACTION -------
+  var rows = document.querySelectorAll('.service-row');
+  var visualImg = document.querySelector('.services-visual .simg');
+  var simgLabel = document.getElementById('simgLabel');
+  function activateRow(row){
+    rows.forEach(function(r){ r.classList.remove('active'); r.querySelector('.s-toggle').setAttribute('aria-expanded','false'); });
+    row.classList.add('active');
+    row.querySelector('.s-toggle').setAttribute('aria-expanded','true');
+    var img = row.getAttribute('data-img');
+    if(visualImg && img){ visualImg.style.backgroundImage = "url('" + img + "')"; }
+    var nameEl = row.querySelector('.s-name');
+    if(simgLabel && nameEl){ simgLabel.textContent = nameEl.textContent; }
+  }
+  rows.forEach(function(row){
+    row.addEventListener('mouseenter', function(){ if(window.innerWidth > 980) activateRow(row); });
+    row.querySelector('.s-toggle').addEventListener('click', function(){ activateRow(row); });
   });
 
-  const seqSection = document.getElementById('sequence');
-  const seqFill = document.getElementById('seqFill');
-  const seqIo = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        seqFill.style.width = '100%';
-        seqIo.unobserve(entry.target);
-      }
+  // ------- REVEAL ON SCROLL -------
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.16});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // ------- PROJECT MODAL -------
+  var backdrop = document.getElementById('modalBackdrop');
+  var mTag = document.getElementById('mTag');
+  var mTitle = document.getElementById('mTitle');
+  var mLoc = document.getElementById('mLoc');
+  var mDesc = document.getElementById('mDesc');
+  var mGallery = document.getElementById('mGallery');
+  var projectOpener = null;
+  var previousBodyOverflow = '';
+
+  function openProject(id){
+    var p = projects[id];
+    if(!p || backdrop.open) return;
+    projectOpener = document.activeElement;
+    previousBodyOverflow = document.body.style.overflow;
+    mTag.textContent = p.tag;
+    mTitle.textContent = p.title;
+    mLoc.textContent = p.loc;
+    mDesc.textContent = p.desc;
+    mGallery.innerHTML = '';
+    p.images.forEach(function(img){
+      var wrapDiv = document.createElement('div');
+      if(img.wide) wrapDiv.className = 'wide';
+      var el = document.createElement('img');
+      el.src = images[img.k];
+      el.alt = img.alt;
+      el.loading = 'lazy';
+      wrapDiv.appendChild(el);
+      mGallery.appendChild(wrapDiv);
     });
-  }, {threshold:0.3});
-  seqIo.observe(seqSection);
+    backdrop.showModal();
+    backdrop.querySelector('.modal').scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+    mTitle.focus({preventScroll:true});
+  }
+  function closeProject(){
+    if(backdrop.open){ backdrop.close(); }
+  }
+  backdrop.addEventListener('close', function(){
+    document.body.style.overflow = previousBodyOverflow;
+    if(projectOpener && projectOpener.isConnected){ projectOpener.focus({preventScroll:true}); }
+    projectOpener = null;
+  });
+  document.querySelectorAll('[data-open]').forEach(function(btn){
+    btn.addEventListener('click', function(){ openProject(btn.getAttribute('data-open')); });
+  });
+  document.getElementById('modalClose').addEventListener('click', closeProject);
+  backdrop.addEventListener('click', function(e){ if(e.target === backdrop) closeProject(); });
+
+  // ------- WHATSAPP -------
+  function waLink(text){
+    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text);
+  }
+  var defaultWaText = "Hi ArkLine Projects, I'd like to ask about a project.";
+  document.getElementById('waFloat').href = waLink(defaultWaText);
+  document.getElementById('waContactLink').href = waLink(defaultWaText);
+  document.getElementById('waFooterLink').href = waLink(defaultWaText);
+
+  var enquiryStatus = document.getElementById('enquiryStatus');
+  var enquiryMessage = document.getElementById('enquiryMessage');
+  document.getElementById('enquiryForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var f = e.target.elements;
+    var lines = [
+      "Hi ArkLine Projects, I'd like to start a project.",
+      "Name: " + (f.name.value || "-"),
+      "Phone: " + (f.phone.value || "-"),
+      "Email: " + (f.email.value || "-"),
+      "Looking to build: " + (f.type.value || "-"),
+      "Location: " + (f.location.value || "-"),
+      "Details: " + (f.message.value || "-")
+    ];
+    var message = lines.join("\n");
+    var url = waLink(message);
+    enquiryMessage.value = message;
+    document.getElementById('enquiryWaLink').href = url;
+    document.getElementById('enquiryFallback').hidden = false;
+    enquiryStatus.textContent = 'Your message is ready. If WhatsApp did not open, use the link below or copy the message. Attach any files in WhatsApp, then press Send.';
+    try { window.open(url, '_blank', 'noopener,noreferrer'); }
+    catch(error){ /* The visible link and prepared message remain available. */ }
+  });
+  document.getElementById('copyEnquiry').addEventListener('click', async function(){
+    try {
+      if(!navigator.clipboard){ throw new Error('Clipboard unavailable'); }
+      await navigator.clipboard.writeText(enquiryMessage.value);
+      enquiryStatus.textContent = 'Message copied. Paste it into WhatsApp, attach any files, then press Send.';
+    } catch(error){
+      enquiryMessage.focus();
+      enquiryMessage.select();
+      enquiryStatus.textContent = 'Select and copy the prepared message below, then paste it into WhatsApp. Attach any files and press Send.';
+    }
+  });
+
+  document.getElementById('yr').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
