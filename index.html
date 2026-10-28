@@ -3,7 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ArkLine Projects — Bespoke Carpentry, Cabinetry &amp; Interiors</title>
+<title>ArkLine Projects — Carpentry and Cabinetry in Durban</title>
+<meta name="description" content="Bespoke carpentry, cabinetry, kitchens and commercial shop fitting in Durban and surrounding areas. Discuss your project with ArkLine Projects.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_ZA">
+<meta property="og:site_name" content="ArkLine Projects">
+<meta property="og:title" content="ArkLine Projects — Carpentry and Cabinetry in Durban">
+<meta property="og:description" content="Bespoke carpentry, cabinetry and interior fit-outs serving Durban and surrounding areas.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ArkLine Projects — Carpentry and Cabinetry in Durban">
+<meta name="twitter:description" content="Custom kitchens, cupboards, cabinetry and shop fitting in Durban and surrounding areas.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "ArkLine Projects",
+  "telephone": "+27607991019",
+  "areaServed": {
+    "@type": "Place",
+    "name": "Durban and surrounding areas"
+  }
+}
+</script>
 <link rel="icon" href="images/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -186,8 +207,9 @@
   .dark{ background:var(--charcoal); color:var(--warm-white); }
   .dark .eyebrow{ color:var(--light-wood); }
   .dark .eyebrow::before{ background:var(--light-wood); }
-  .reveal{ opacity:0; transform:translateY(26px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
-  .reveal.in{ opacity:1; transform:translateY(0); }
+  .reveal{ opacity:1; transform:none; }
+  .reveal-ready .reveal{ opacity:0; transform:translateY(26px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal-ready .reveal.in{ opacity:1; transform:translateY(0); }
   @media (prefers-reduced-motion: reduce){ .reveal{opacity:1; transform:none; transition:none;} }
 
   /* ---------- INTRO ---------- */
@@ -213,22 +235,22 @@
     content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--light-wood);
     transform:scaleY(0); transform-origin:bottom; transition:transform .45s cubic-bezier(.3,.7,.2,1);
   }
-  .service-row:hover::before, .service-row.active::before{ transform:scaleY(1); }
-  .service-row button.s-toggle{
-    width:100%; background:none; border:none; color:inherit; text-align:left;
+  .service-row:hover::before, .service-row[open]::before{ transform:scaleY(1); }
+  .service-row .s-toggle{
+    width:100%; background:none; border:none; color:inherit; text-align:left; list-style:none; cursor:pointer;
     display:flex; align-items:center; gap:20px; padding:22px 10px 22px 22px; font-family:var(--sans);
     transition:padding-left .35s cubic-bezier(.3,.7,.2,1), background-color .35s ease;
   }
-  .service-row:hover button.s-toggle, .service-row.active button.s-toggle{
+  .service-row:hover .s-toggle, .service-row[open] .s-toggle{
     padding-left:32px; background:rgba(245,246,242,.045);
   }
   .service-row .s-num{ font-size:12.5px; font-weight:700; color:var(--light-wood); width:24px; flex:none; opacity:.55; }
   .service-row .s-copy{ flex:1; display:flex; flex-direction:column; gap:5px; min-width:0; }
   .service-row .s-name{ font-family:var(--serif); font-size:clamp(19px,2.1vw,26px); font-weight:700; text-transform:uppercase; letter-spacing:.01em; transition:color .3s ease; }
-  .service-row:hover .s-name, .service-row.active .s-name{ color:var(--light-wood); }
-  .service-row .s-desc-text{ font-family:var(--sans); font-size:13.5px; font-weight:400; text-transform:none; letter-spacing:0; color:rgba(245,246,242,.55); max-width:40ch; }
+  .service-row:hover .s-name, .service-row[open] .s-name{ color:var(--light-wood); }
+  .service-row .s-desc-text{ font-family:var(--sans); font-size:13.5px; font-weight:400; text-transform:none; letter-spacing:0; color:rgba(245,246,242,.78); max-width:40ch; }
   .service-row .s-arrow{ width:15px; height:15px; opacity:.4; transition:transform .35s ease, opacity .3s ease; flex:none; }
-  .service-row:hover .s-arrow, .service-row.active .s-arrow{ transform:translateX(4px); opacity:1; }
+  .service-row:hover .s-arrow, .service-row[open] .s-arrow{ transform:translateX(4px); opacity:1; }
   .services-visual{ position:relative; min-height:420px; display:none; }
   @media (min-width:981px){ .services-visual{ display:block; } }
   .services-visual .simg{
@@ -251,7 +273,7 @@
   .process-cell .num{ font-size:15px; }
   .process-cell h3{ font-size:26px; margin-top:14px; }
   .process-cell p{ font-size:14.5px; line-height:1.6; margin-top:12px; color:#4a463f; max-width:26ch; }
-  .process-cell.reveal{ transform:translateX(-34px); transition:opacity .65s cubic-bezier(.25,.7,.2,1), transform .65s cubic-bezier(.25,.7,.2,1); }
+  .reveal-ready .process-cell.reveal{ transform:translateX(-34px); transition:opacity .65s cubic-bezier(.25,.7,.2,1), transform .65s cubic-bezier(.25,.7,.2,1); }
   .process-cell.reveal.in{ transform:translateX(0); }
   .process-cell.reveal:nth-child(1){ transition-delay:0s; }
   .process-cell.reveal:nth-child(2){ transition-delay:.14s; }
@@ -411,13 +433,80 @@
   .modal-gallery img{ width:100%; height:100%; object-fit:cover; aspect-ratio:4/3; }
   .modal-gallery .wide{ grid-column:1/-1; aspect-ratio:16/9; }
   .modal-gallery .wide img{ aspect-ratio:16/9; }
+
+  /* ---------- ACCESSIBILITY AND MOBILE LAYOUT ---------- */
+  :focus-visible{ outline:3px solid var(--timber); outline-offset:4px; }
+  .dark :focus-visible, footer :focus-visible, .hero :focus-visible, .navlinks :focus-visible{ outline-color:var(--light-wood); }
+  .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible{ outline:2px solid var(--timber); outline-offset:3px; }
+  .skip-link{ position:fixed; top:8px; left:16px; z-index:1000; transform:translateY(-160%); background:var(--warm-white); padding:14px 18px; font-weight:700; }
+  .skip-link:focus{ transform:none; }
+  .hero-inner{ padding-left:40px; padding-right:40px; }
+  .intro-grid > *, .contact-grid > *, .budget > *, .project > *, .footer-grid > *{ min-width:0; }
+  .contact-alt a, .project-tag, .project-text h3, .modal-head h3{ overflow-wrap:anywhere; }
+  .contact-alt .service-area{ margin:8px 0 0; color:#57534b; line-height:1.6; }
+  .field input, .field select, .field textarea{ min-width:0; width:100%; font-size:16px; }
+  .form-note{ color:#57534b; line-height:1.6; }
+  button:disabled{ opacity:.6; cursor:not-allowed; }
+  .viewbtn{ background:none; border:0; border-bottom:1px solid var(--charcoal); padding:12px 0; color:inherit; min-height:44px; text-align:left; }
+  .service-row .s-toggle::-webkit-details-marker{ display:none; }
+  .service-row[open] .s-arrow{ transform:rotate(90deg); opacity:1; }
+  .service-detail{ padding:0 22px 24px; }
+  .service-detail img{ width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; margin-bottom:16px; }
+  .service-detail a{ display:inline-flex; align-items:center; min-height:44px; color:var(--warm-white); text-decoration:underline; text-underline-offset:4px; font-size:14px; }
+  @media (min-width:981px){ .service-detail img{ display:none; } }
+  @media (max-width:900px){ .hero-inner{ padding-left:22px; padding-right:22px; } }
+  @media (max-width:880px){
+    :root{ --nav-h:72px; }
+    header.nav.solid{ backdrop-filter:none; background:var(--warm-white); }
+    .navlinks{ height:100dvh; overflow-y:auto; padding-bottom:calc(40px + env(safe-area-inset-bottom,0px)); }
+    .hero{ height:auto; min-height:100svh; padding-top:calc(var(--nav-h) + 70px); }
+    .hero-inner{ padding-bottom:56px; }
+    .hero h1{ font-size:clamp(42px,10vw,76px); max-width:14ch; }
+    .hero-ctas{ margin-top:28px; }
+    .about{ min-height:0; padding:72px 0; }
+    .about::after{ background:rgba(15,14,12,.8); }
+    .quality{ padding:84px 0; }
+    .modal-backdrop{ padding:12px; padding-top:calc(12px + env(safe-area-inset-top,0px)); padding-bottom:calc(12px + env(safe-area-inset-bottom,0px)); }
+    .modal{ max-height:calc(100dvh - 24px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); overscroll-behavior:contain; }
+    .modal-close{ width:44px; height:44px; }
+  }
+  @media (max-width:560px){
+    .hero-ctas{ flex-direction:column; align-items:stretch; gap:12px; }
+    .hero-ctas .btn{ justify-content:center; width:100%; }
+    .section-pad{ padding:60px 0; }
+    .service-row .s-toggle, .service-row:hover .s-toggle, .service-row[open] .s-toggle{ padding:20px 12px; gap:12px; }
+    .service-row .s-num{ width:20px; }
+    .service-detail{ padding:0 12px 20px; }
+    .submit-row .btn, .handoff-actions .btn{ width:100%; justify-content:center; }
+    .footer-grid{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:28px 20px; }
+    .footer-brand{ grid-column:1/-1; }
+    footer{ padding:56px 0 100px; }
+    .contact-alt{ font-size:14px; }
+    .modal-head{ padding:20px 18px 0; }
+  }
+  @media (max-height:500px) and (max-width:880px){
+    .hero{ padding-top:calc(var(--nav-h) + 30px); }
+    .hero-inner{ padding-bottom:28px; }
+    .navlinks{ justify-content:flex-start; gap:16px; padding-top:calc(var(--nav-h) + 16px); }
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    *, *::before, *::after{ animation:none !important; transition:none !important; }
+    .hero h1, .hero p.sub, .hero-ctas{ opacity:1; transform:none; }
+    .reveal, .reveal-ready .reveal, .reveal-ready .process-cell.reveal{ opacity:1; transform:none; }
+  }
+
 </style>
 </head>
 <body>
+<a class="skip-link" href="#top">Skip to main content</a>
 
 <header class="nav" id="siteNav">
   <div class="wrap bar">
     <a href="#top" class="brand"><img src="images/logo.png" alt="ArkLine Projects"></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks" type="button">
+      <span></span><span></span><span></span>
+    </button>
     <nav class="navlinks" id="navLinks">
       <a href="#work">Work</a>
       <a href="#services">Services</a>
@@ -425,13 +514,23 @@
       <a href="#about">About</a>
       <a href="#contact" class="cta">Start a Project →</a>
     </nav>
-    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks" type="button">
-      <span></span><span></span><span></span>
-    </button>
   </div>
 </header>
 
-<main id="top">
+<noscript>
+  <style>
+    @media (max-width:880px){
+      header.nav{ position:absolute; background:var(--charcoal); }
+      header.nav .bar{ height:auto; flex-wrap:wrap; padding-top:16px; padding-bottom:16px; gap:16px; }
+      .menu-btn{ display:none; }
+      .navlinks{ position:static; width:100%; height:auto; visibility:visible; transform:none; flex-direction:row; flex-wrap:wrap; padding:0; gap:12px 20px; }
+      .navlinks a{ font-size:16px; }
+      .hero{ padding-top:220px; }
+    }
+    .viewbtn{ display:none; }
+  </style>
+</noscript>
+<main id="top" tabindex="-1">
 
   <!-- HERO -->
   <section class="hero">
@@ -475,107 +574,143 @@
       <div class="services-shell">
         <div class="services-list" id="servicesList">
 
-          <div class="service-row active" data-img="images/kitchenette.jpg">
-            <button class="s-toggle" aria-expanded="true">
+          <details class="service-row" name="arkline-services" data-img="images/kitchenette.jpg" open>
+            <summary class="s-toggle">
               <span class="s-num">01</span>
               <span class="s-copy">
                 <span class="s-name">Kitchens</span>
                 <span class="s-desc-text">Full kitchen builds and remodels, from carcass to countertop.</span>
               </span>
               <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </button>
-          </div>
+            </summary>
+            <div class="service-detail">
+              <img src="images/kitchenette.jpg" alt="ArkLine project example for Kitchens" loading="lazy" width="800" height="600">
+              <a href="#contact">Discuss kitchens with us →</a>
+            </div>
+          </details>
 
-          <div class="service-row" data-img="images/bedroom-closets-1.jpg">
-            <button class="s-toggle" aria-expanded="false">
+          <details class="service-row" name="arkline-services" data-img="images/bedroom-closets-1.jpg">
+            <summary class="s-toggle">
               <span class="s-num">02</span>
               <span class="s-copy">
                 <span class="s-name">Built-in cupboards</span>
                 <span class="s-desc-text">Wardrobes and storage built into the shape of the room.</span>
               </span>
               <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </button>
-          </div>
+            </summary>
+            <div class="service-detail">
+              <img src="images/bedroom-closets-1.jpg" alt="ArkLine project example for Built-in cupboards" loading="lazy" width="800" height="600">
+              <a href="#contact">Discuss built-in cupboards with us →</a>
+            </div>
+          </details>
 
-          <div class="service-row" data-img="images/floating-shelves-cabinets-1.jpg">
-            <button class="s-toggle" aria-expanded="false">
+          <details class="service-row" name="arkline-services" data-img="images/floating-shelves-cabinets-1.jpg">
+            <summary class="s-toggle">
               <span class="s-num">03</span>
               <span class="s-copy">
                 <span class="s-name">Custom cabinets</span>
                 <span class="s-desc-text">Cabinetry designed and joined for an exact fit.</span>
               </span>
               <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </button>
-          </div>
+            </summary>
+            <div class="service-detail">
+              <img src="images/floating-shelves-cabinets-1.jpg" alt="ArkLine project example for Custom cabinets" loading="lazy" width="800" height="600">
+              <a href="#contact">Discuss custom cabinets with us →</a>
+            </div>
+          </details>
 
-          <div class="service-row" data-img="images/tv-unit-wall-panel.jpg">
-            <button class="s-toggle" aria-expanded="false">
+          <details class="service-row" name="arkline-services" data-img="images/tv-unit-wall-panel.jpg">
+            <summary class="s-toggle">
               <span class="s-num">04</span>
               <span class="s-copy">
                 <span class="s-name">TV units</span>
                 <span class="s-desc-text">Floating units that carry the cables you don't want to see.</span>
               </span>
               <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </button>
-          </div>
+            </summary>
+            <div class="service-detail">
+              <img src="images/tv-unit-wall-panel.jpg" alt="ArkLine project example for TV units" loading="lazy" width="800" height="600">
+              <a href="#contact">Discuss tv units with us →</a>
+            </div>
+          </details>
 
-          <div class="service-row" data-img="images/tv-unit-wall-panel.jpg">
-            <button class="s-toggle" aria-expanded="false">
+          <details class="service-row" name="arkline-services" data-img="images/tv-unit-wall-panel.jpg">
+            <summary class="s-toggle">
               <span class="s-num">05</span>
               <span class="s-copy">
                 <span class="s-name">Wall panelling</span>
                 <span class="s-desc-text">Slatted and panelled walls that finish a room properly.</span>
               </span>
               <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </button>
-          </div>
+            </summary>
+            <div class="service-detail">
+              <img src="images/tv-unit-wall-panel.jpg" alt="ArkLine project example for Wall panelling" loading="lazy" width="800" height="600">
+              <a href="#contact">Discuss wall panelling with us →</a>
+            </div>
+          </details>
 
-          <div class="service-row" data-img="images/shop-fitting-3.jpg">
-            <button class="s-toggle" aria-expanded="false">
+          <details class="service-row" name="arkline-services" data-img="images/shop-fitting-3.jpg">
+            <summary class="s-toggle">
               <span class="s-num">06</span>
               <span class="s-copy">
                 <span class="s-name">Office spaces</span>
                 <span class="s-desc-text">Desks, counters and joinery built for working spaces.</span>
               </span>
               <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </button>
-          </div>
+            </summary>
+            <div class="service-detail">
+              <img src="images/shop-fitting-3.jpg" alt="ArkLine project example for Office spaces" loading="lazy" width="800" height="600">
+              <a href="#contact">Discuss office spaces with us →</a>
+            </div>
+          </details>
 
-          <div class="service-row" data-img="images/bathroom-vanity.jpg">
-            <button class="s-toggle" aria-expanded="false">
+          <details class="service-row" name="arkline-services" data-img="images/bathroom-vanity.jpg">
+            <summary class="s-toggle">
               <span class="s-num">07</span>
               <span class="s-copy">
                 <span class="s-name">Vanities</span>
                 <span class="s-desc-text">Basins, counters and storage built for daily use.</span>
               </span>
               <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </button>
-          </div>
+            </summary>
+            <div class="service-detail">
+              <img src="images/bathroom-vanity.jpg" alt="ArkLine project example for Vanities" loading="lazy" width="800" height="600">
+              <a href="#contact">Discuss vanities with us →</a>
+            </div>
+          </details>
 
-          <div class="service-row" data-img="images/shop-fitting-4.jpg">
-            <button class="s-toggle" aria-expanded="false">
+          <details class="service-row" name="arkline-services" data-img="images/shop-fitting-4.jpg">
+            <summary class="s-toggle">
               <span class="s-num">08</span>
               <span class="s-copy">
                 <span class="s-name">Countertops</span>
                 <span class="s-desc-text">Cut, edged and fitted to the millimetre.</span>
               </span>
               <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </button>
-          </div>
+            </summary>
+            <div class="service-detail">
+              <img src="images/shop-fitting-4.jpg" alt="ArkLine project example for Countertops" loading="lazy" width="800" height="600">
+              <a href="#contact">Discuss countertops with us →</a>
+            </div>
+          </details>
 
-          <div class="service-row" data-img="images/shop-fitting-2.jpg">
-            <button class="s-toggle" aria-expanded="false">
+          <details class="service-row" name="arkline-services" data-img="images/shop-fitting-2.jpg">
+            <summary class="s-toggle">
               <span class="s-num">09</span>
               <span class="s-copy">
                 <span class="s-name">Shop fitting</span>
                 <span class="s-desc-text">Counters, shelving and fixtures for retail and commercial spaces.</span>
               </span>
               <svg class="s-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </button>
-          </div>
+            </summary>
+            <div class="service-detail">
+              <img src="images/shop-fitting-2.jpg" alt="ArkLine project example for Shop fitting" loading="lazy" width="800" height="600">
+              <a href="#contact">Discuss shop fitting with us →</a>
+            </div>
+          </details>
 
         </div>
-        <div class="services-visual">
+        <div class="services-visual" aria-hidden="true">
           <div class="simg active" data-key="images/kitchenette.jpg" style="background-image:url('images/kitchenette.jpg')"></div>
           <div class="sframe"></div>
           <div class="simg-label" id="simgLabel">Kitchens</div>
@@ -758,23 +893,25 @@
         <h2 style="margin-top:16px;">Have a space in mind?</h2>
         <p class="lede">Tell us what you're looking to build and we'll come back to you with next steps — usually within a day or two.</p>
         <div class="contact-alt">
-          <a id="waContactLink" href="#" target="_blank" rel="noopener">Chat with us on WhatsApp →</a>
+          <a id="waContactLink" href="https://wa.me/27607991019?text=Hi%20ArkLine%20Projects%2C%20I%27d%20like%20to%20ask%20about%20a%20project." target="_blank" rel="noopener">Chat with us on WhatsApp →</a>
+          <a href="tel:+27607991019">Call 060 799 1019</a>
           <a href="mailto:arklineprojects@outlook.com">arklineprojects@outlook.com</a>
+          <p class="service-area">Serving Durban and surrounding areas.</p>
         </div>
       </div>
 
-      <form class="enquiry reveal" id="enquiryForm">
+      <form class="enquiry reveal" id="enquiryForm" method="post" aria-describedby="enquiryHelp">
         <div class="field">
           <label for="f-name">Name *</label>
-          <input id="f-name" name="name" type="text" required>
+          <input id="f-name" name="name" type="text" autocomplete="name" maxlength="100" required>
         </div>
         <div class="field">
           <label for="f-phone">Phone *</label>
-          <input id="f-phone" name="phone" type="tel" required>
+          <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" required>
         </div>
         <div class="field full">
           <label for="f-email">Email</label>
-          <input id="f-email" name="email" type="email">
+          <input id="f-email" name="email" type="email" autocomplete="email" maxlength="254">
         </div>
         <div class="field full">
           <label for="f-type">What are you looking to build?</label>
@@ -791,17 +928,18 @@
         </div>
         <div class="field full">
           <label for="f-loc">Project location</label>
-          <input id="f-loc" name="location" type="text" placeholder="Suburb, city">
+          <input id="f-loc" name="location" type="text" autocomplete="address-level2" maxlength="160" placeholder="Suburb, city">
         </div>
         <div class="field full">
           <label for="f-msg">Tell us about your project</label>
-          <textarea id="f-msg" name="message" rows="4"></textarea>
+          <textarea id="f-msg" name="message" rows="4" maxlength="1500" aria-describedby="messageHelp"></textarea>
+          <span class="form-note" id="messageHelp">Up to 1,500 characters. Attach files directly in WhatsApp.</span>
         </div>
         <div class="submit-row">
-          <button type="submit" class="btn btn-dark">Continue in WhatsApp
+          <button type="submit" class="btn btn-dark" id="enquirySubmit" disabled>Continue in WhatsApp
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </button>
-          <span class="form-note">Opens a pre-filled message. Attach any photos, drawings or PDFs in WhatsApp, then press Send.</span>
+          <span class="form-note" id="enquiryHelp">Opens a pre-filled message. Attach any photos, drawings or PDFs in WhatsApp, then press Send. If the form is unavailable, use the WhatsApp or email links.</span>
         </div>
         <div class="enquiry-handoff">
           <p id="enquiryStatus" role="status" aria-live="polite" aria-atomic="true"></p>
@@ -825,7 +963,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="#top" class="brand"><img src="images/logo.png" alt="ArkLine Projects"></a>
-        <p>Bespoke carpentry, cabinetry and interior solutions. Measured properly, built to last.</p>
+        <p>Bespoke carpentry, cabinetry and interior solutions serving Durban and surrounding areas.</p>
       </div>
       <div>
         <h4>Services</h4>
@@ -849,9 +987,9 @@
       <div>
         <h4>Connect</h4>
         <ul>
-          <li><a id="waFooterLink" href="#" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a id="waFooterLink" href="https://wa.me/27607991019?text=Hi%20ArkLine%20Projects%2C%20I%27d%20like%20to%20ask%20about%20a%20project." target="_blank" rel="noopener">WhatsApp</a></li>
           <li><a href="mailto:arklineprojects@outlook.com">Email</a></li>
-          <li><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="tel:+27607991019">060 799 1019</a></li>
         </ul>
       </div>
     </div>
@@ -863,7 +1001,7 @@
 </footer>
 
 <!-- WHATSAPP FLOAT -->
-<a class="wa-float" id="waFloat" href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+<a class="wa-float" id="waFloat" href="https://wa.me/27607991019?text=Hi%20ArkLine%20Projects%2C%20I%27d%20like%20to%20ask%20about%20a%20project." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
   <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.01 3C9.38 3 4 8.38 4 15.01c0 2.39.7 4.62 1.9 6.5L4 29l7.68-1.86a12 12 0 0 0 4.33.8h.01c6.63 0 12.01-5.38 12.01-12.01C28.03 8.38 22.65 3 16.01 3zm7.02 17.1c-.3.83-1.5 1.53-2.42 1.72-.65.13-1.5.24-4.35-.93-3.65-1.5-6-5.18-6.18-5.42-.18-.24-1.48-1.97-1.48-3.76s.94-2.67 1.27-3.04c.33-.37.73-.46.97-.46.24 0 .49 0 .7.01.23.01.53-.09.82.63.3.73 1.03 2.53 1.12 2.71.09.18.15.4.03.64-.12.24-.18.4-.36.61-.18.21-.38.47-.54.63-.18.18-.37.37-.16.73.21.36.94 1.55 2.02 2.51 1.39 1.24 2.56 1.63 2.92 1.81.36.18.57.15.78-.09.21-.24.9-1.05 1.14-1.41.24-.36.48-.3.81-.18.33.12 2.1.99 2.46 1.17.36.18.6.27.69.42.09.15.09.85-.21 1.68z"/></svg>
 </a>
 <span class="wa-tip" id="waTip">Chat with ArkLine on WhatsApp</span>
@@ -973,8 +1111,12 @@
   var menuBtn = document.getElementById('menuBtn');
   var navLinks = document.getElementById('navLinks');
   var mobileNav = window.matchMedia('(max-width:880px)');
+  var menuBodyOverflow = '';
   function setMenuOpen(open, restoreFocus){
     open = mobileNav.matches && open;
+    var wasOpen = navLinks.classList.contains('open');
+    if(open && !wasOpen){ menuBodyOverflow = document.body.style.overflow; document.body.style.overflow = 'hidden'; }
+    else if(!open && wasOpen){ document.body.style.overflow = menuBodyOverflow; }
     navLinks.classList.toggle('open', open);
     menuBtn.classList.toggle('is-open', open);
     menuBtn.setAttribute('aria-expanded', String(open));
@@ -1017,27 +1159,29 @@
   var visualImg = document.querySelector('.services-visual .simg');
   var simgLabel = document.getElementById('simgLabel');
   function activateRow(row){
-    rows.forEach(function(r){ r.classList.remove('active'); r.querySelector('.s-toggle').setAttribute('aria-expanded','false'); });
-    row.classList.add('active');
-    row.querySelector('.s-toggle').setAttribute('aria-expanded','true');
+    rows.forEach(function(r){ if(r !== row){ r.open = false; } });
+    row.open = true;
     var img = row.getAttribute('data-img');
     if(visualImg && img){ visualImg.style.backgroundImage = "url('" + img + "')"; }
     var nameEl = row.querySelector('.s-name');
     if(simgLabel && nameEl){ simgLabel.textContent = nameEl.textContent; }
   }
   rows.forEach(function(row){
-    row.addEventListener('mouseenter', function(){ if(window.innerWidth > 980) activateRow(row); });
-    row.querySelector('.s-toggle').addEventListener('click', function(){ activateRow(row); });
+    row.addEventListener('toggle', function(){ if(row.open){ activateRow(row); } });
   });
 
   // ------- REVEAL ON SCROLL -------
-  if('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, {threshold:0.16});
-    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
-  } else {
-    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  // Content is visible until the observer has been successfully initialized.
+  if('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    try {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, {threshold:0.08});
+      document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+      document.documentElement.classList.add('reveal-ready');
+    } catch(error){
+      document.documentElement.classList.remove('reveal-ready');
+    }
   }
 
   // ------- PROJECT MODAL -------
@@ -1053,6 +1197,7 @@
   function openProject(id){
     var p = projects[id];
     if(!p || backdrop.open) return;
+    if(navLinks.classList.contains('open')){ setMenuOpen(false); }
     projectOpener = document.activeElement;
     previousBodyOverflow = document.body.style.overflow;
     mTag.textContent = p.tag;
@@ -1100,9 +1245,36 @@
 
   var enquiryStatus = document.getElementById('enquiryStatus');
   var enquiryMessage = document.getElementById('enquiryMessage');
-  document.getElementById('enquiryForm').addEventListener('submit', function(e){
+  var enquiryForm = document.getElementById('enquiryForm');
+  function validateContact(field){
+    field.setCustomValidity('');
+    var value = field.value.trim();
+    if(field.name === 'name' && !value){ field.setCustomValidity('Please enter your name.'); }
+    if(field.name === 'phone'){
+      var digits = value.replace(/\D/g, '');
+      if(!/^\+?[\d\s().-]+$/.test(value) || digits.length < 7 || digits.length > 15){
+        field.setCustomValidity('Please enter a valid phone number, including the country code if outside South Africa.');
+      }
+    }
+  }
+  ['name', 'phone'].forEach(function(name){
+    var field = enquiryForm.elements.namedItem(name);
+    field.addEventListener('input', function(){ validateContact(field); });
+    field.addEventListener('blur', function(){ validateContact(field); });
+  });
+  enquiryForm.addEventListener('input', function(){
+    document.getElementById('enquiryFallback').hidden = true;
+    enquiryStatus.textContent = '';
+  });
+  enquiryForm.addEventListener('submit', function(e){
     e.preventDefault();
     var f = e.target.elements;
+    validateContact(f.namedItem('name'));
+    validateContact(f.namedItem('phone'));
+    if(!e.target.reportValidity()){ return; }
+    ['name', 'phone', 'email', 'location', 'message'].forEach(function(name){
+      var field = f.namedItem(name); field.value = field.value.trim();
+    });
     var lines = [
       "Hi ArkLine Projects, I'd like to start a project.",
       "Name: " + (f.name.value || "-"),
@@ -1121,6 +1293,7 @@
     try { window.open(url, '_blank', 'noopener,noreferrer'); }
     catch(error){ /* The visible link and prepared message remain available. */ }
   });
+  document.getElementById('enquirySubmit').disabled = false;
   document.getElementById('copyEnquiry').addEventListener('click', async function(){
     try {
       if(!navigator.clipboard){ throw new Error('Clipboard unavailable'); }
